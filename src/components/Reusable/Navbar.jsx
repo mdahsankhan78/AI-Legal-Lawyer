@@ -6,6 +6,7 @@ import CustomButton from './CustomButton'
 const navlinks = [
     { title: 'Home', path: '#' },
     { title: 'About Us', path: '#about-us' },
+    { title: 'Features', path: '#features' },
     { title: 'Categories', path: '#categories' },
     { title: 'Contact Us', path: '#contact-us' },
 ]
