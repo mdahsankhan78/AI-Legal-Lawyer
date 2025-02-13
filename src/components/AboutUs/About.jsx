@@ -15,13 +15,13 @@ const About = () => {
             <div className="col-span-1 relative">
                 <img
                     src="/about/aboutus.jpg"
-                    className='rounded-xl h-full cursor-pointer'
+                    className='rounded-xl h-full w-full'
                     alt="About Image"
                 />
 
                 <Dialog>
                     <DialogTrigger>
-                        <div className="absolute -right-8 top-[50%] bg-primary rounded-full flex items-center justify-center h-16 w-16">
+                        <div className="absolute -right-8 top-[45%] bg-primary rounded-full flex items-center justify-center h-16 w-16">
                             <FaPlay />
                         </div>
                     </DialogTrigger>

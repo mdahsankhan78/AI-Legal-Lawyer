@@ -6,10 +6,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export const categories = [
-    { id: 1, img: '/category1.jpeg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Fusce Taciti Varius In Nascetur Accumsan Pellentesque Tempor Mi Ipsum Finibus Etiam Cras Viverra Nisi Nisl Tempus Convallis Curae Ipsum Imperdiet Viverra Mattis Vel Auctor Posuere Lorem Enim Morbi Ante Curabitur Mollis Commodo', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
-    { id: 2, img: '/category2.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Fusce Taciti Varius In Nascetur Accumsan Pellentesque Tempor Mi Ipsum Finibus Etiam Cras Viverra Nisi Nisl Tempus Convallis Curae Ipsum Imperdiet Viverra Mattis Vel Auctor Posuere Lorem Enim Morbi Ante Curabitur Mollis Commodo', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
-    { id: 3, img: '/category3.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Fusce Taciti Varius In Nascetur Accumsan Pellentesque Tempor Mi Ipsum Finibus Etiam Cras Viverra Nisi Nisl Tempus Convallis Curae Ipsum Imperdiet Viverra Mattis Vel Auctor Posuere Lorem Enim Morbi Ante Curabitur Mollis Commodo', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
-    { id: 4, img: '/category1.jpeg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Fusce Taciti Varius In Nascetur Accumsan Pellentesque Tempor Mi Ipsum Finibus Etiam Cras Viverra Nisi Nisl Tempus Convallis Curae Ipsum Imperdiet Viverra Mattis Vel Auctor Posuere Lorem Enim Morbi Ante Curabitur Mollis Commodo', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
+    { id: 1,main:'Al in Real Estate Consulting ', img: '/category1.jpeg',img2:'/categories1.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Tools are increasingly being used in property consulting to analyze market trends, predict property values, and assess risks. ', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
+    { id: 2,main:'Al in Traffic Violations ', img: '/category2.jpg',img2:'/categories2.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: "Understanding traffic laws and how to address violations can save you time and money. You're seeking advice on resolving tickets. ", title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
+    { id: 3,main:'Al in Criminal Law ', img: '/category3.jpg',img2:'/categories3.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Understanding your rights in criminal cases is crucial. Get guidance on defense preparation and support for bail procedures. ', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
+    { id: 4,main:'Al in Family Law ', img: '/category1.jpeg',img2:'/categories4.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Get help with divorce, custody, alimony, and adoption procedures. Navigate family law with expert guidance.' },
+    { id: 5,main:'Al in Tax law ', img: '/category1.jpeg',img2:'/categories3.jpg', name: 'Empowering Justice through ', name2: 'intelligent solutions', text: 'Al is revolutionizing tax law by automating processes, streamlining tax filings, and offering smarter tax planning solutions.', title1: 'Turning Legal Challenges', title2: ' Into Opportunities', title3: ' With Expert Legal Support' },
 ]
 
 const CategorySwiper = ({onChange}) => {
@@ -30,7 +31,7 @@ const CategorySwiper = ({onChange}) => {
     );
 
     return (
-        <section className="">
+        <section className=" backdrop-blur-md py-4 paddingx">
             <div className="mx-auto px-4 sm:px-0">
                 <Swiper
                     slidesPerView={1}

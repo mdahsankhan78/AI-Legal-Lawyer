@@ -30,7 +30,7 @@ const Hero = () => {
 
     const handlers = useSwipeable({
         onSwipedRight: () => {
-            const index = activeIndex === 1 ? 4 : activeIndex - 1
+            const index = activeIndex === 1 ? 5 : activeIndex - 1
             onChange(index)
         },
         onSwipedLeft: () => {
@@ -50,8 +50,8 @@ const Hero = () => {
                     style={{ backgroundImage: `url(/categories/${category.img})` }}
                     onLoad={handleImageLoad}
                 >
-                    <div className="relative isolate paddingx text-white">
-                        <div className="md:w-1/2 lg:py-40 flex flex-col justify-center min-h-screen">
+                    <div className="relative isolate text-white">
+                        <div className="md:w-1/2 lg:py-40 flex flex-col justify-center min-h-screen paddingx">
                             <div data-aos='fade-right' data-aos-duration='300' className="hidden mb-4 sm:flex">
                                 <div className="py-1 text-sm/6 flex gap-x-2 items-center whitespace-nowrap">
                                     <Separator className='w-20' />
