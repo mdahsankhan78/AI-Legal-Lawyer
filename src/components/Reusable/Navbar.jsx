@@ -1,5 +1,5 @@
 import React from 'react'
-import { Separator } from '../ui/separator'
+import { Separator } from './../ui/separator'
 import TopNav from './TopNav'
 import CustomButton from './CustomButton'
 

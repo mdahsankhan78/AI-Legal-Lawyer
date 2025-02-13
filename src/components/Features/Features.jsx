@@ -1,5 +1,5 @@
 import React from 'react'
-import { Separator } from '../ui/Separator'
+import { Separator } from './../ui/separator'
 
 export const features = [
     { img: '/features1.jpg', title: 'Lease Agreements', text: 'Document analysis for title deeds and lease agreements' },

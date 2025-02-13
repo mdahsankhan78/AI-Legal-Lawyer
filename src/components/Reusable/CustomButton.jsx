@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../ui/button'
+import { Button } from './../ui/button'
 import { FaArrowRight } from "react-icons/fa";
 
 const CustomButton = ({bg, text, color, border, px}) => {

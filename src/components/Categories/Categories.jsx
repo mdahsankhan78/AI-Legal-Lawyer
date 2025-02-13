@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Separator } from '../ui/Separator'
-import { categories } from '../Home/CategorySwiper'
+import { Separator } from './../ui/separator'
+import { categories } from './../Home/CategorySwiper'
 import { FaArrowDown } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 

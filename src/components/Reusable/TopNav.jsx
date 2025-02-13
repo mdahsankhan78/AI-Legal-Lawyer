@@ -2,7 +2,7 @@ import React from 'react'
 import { FaYoutube, FaFacebookF } from "react-icons/fa";
 import { FaXTwitter, FaThreads, FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { Separator } from '../ui/separator';
+import { Separator } from './../ui/separator';
 
 const TopNav = () => {
     return (
