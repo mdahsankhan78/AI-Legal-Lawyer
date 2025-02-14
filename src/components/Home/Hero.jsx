@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Separator } from './../ui/separator'
-import CustomButton from './../reusable/CustomButton'
+import CustomButton from './../Reusable/CustomButton'
 import CategorySwiper, { categories } from './CategorySwiper'
 import { useSwipeable } from 'react-swipeable'
 
