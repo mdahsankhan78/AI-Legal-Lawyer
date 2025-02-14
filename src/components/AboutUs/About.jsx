@@ -38,7 +38,7 @@ const About = () => {
                     <Separator className='w-20 h-[2px]' />
                 </div>
                 <p className=''></p>
-                <p className='text-3xl font-semibold'>We Integrate AI to Strengthen your battle for Justice</p>
+                <p className='text-4xl font-semibold'>We Integrate AI to <span className="text-primary">Strengthen</span> your battle for Justice</p>
                 <p className='text-xl'>far, far away, beyond the data streams, lies a realm where AI shapes the future. </p>
 
                 <AboutTabs />

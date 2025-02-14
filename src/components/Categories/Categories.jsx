@@ -15,7 +15,7 @@ const Categories = () => {
                     Where Justice Meets Strategy
                     <Separator className='w-20 h-[2px]' />
                 </div>
-                <p className='text-3xl font-semibold'>Our practice areas of {''}
+                <p className='text-4xl font-semibold'>Our practice areas of {''}
                     <span className="text-primary">
                         Specialization
                     </span> according the law
@@ -24,43 +24,19 @@ const Categories = () => {
 
             <div className="flex flex-col gap-y-4 w-full">
                 {categories.map((category, i) => (
-                    <div key={i} className={`flex justify-between items-center modern min-h-60 transition-all relative group`} onMouseEnter={() => setIsHover(category.id)} onMouseLeave={() => setIsHover()}>
-                        <div className="flex items-center gap-x-8">
-                            {
-                                isHover === category.id ?
-                                    <>
-                                        <motion.img
-                                            layoutId={`img-${category.id}`}
-                                            src={`/categories/categories1.jpg`}
-                                            className='h-60 w-full absolute object-cover'
-                                            alt=""
-                                        />
-                                        <div className="absolute bg-black/50 inset-0"></div>
-                                        <motion.span
-                                            layoutId={`text-${category.id}`}
-                                            className='text-white z-10 flex flex-col justify-end px-8'>
-                                            <p className='text-3xl z-10 font-semibold'>{category.main}</p>
-                                            <p className='text-2xl z-10'>{category.text}</p>
-                                        </motion.span>
-                                    </>
-                                    :
-                                    <>
-                                        <motion.img
-                                            layoutId={`img-${category.id}`}
-                                            src={`/categories/${category.img2}`}
-                                            className='h-60 w-96'
-                                            alt=""
-                                        />
-                                        <motion.span
-                                            layoutId={`text-${category.id}`}>
-                                            <p className='text-3xl z-10 font-semibold'>{category.main}</p>
-                                            <p className='text-2xl z-10'>{category.text}</p>
-                                        </motion.span>
-                                    </>
-                            }
+                    <div key={i} className={`bg-cover bg-center flex justify-between items-center p-8 min-h-60 transition-all relative group`} onMouseEnter={() => setIsHover(category.id)} onMouseLeave={() => setIsHover()} style={{ backgroundImage: `url(/categories/${category.img2})` }}>
+                        <div className="absolute bg-black/50 inset-0"></div>
+                        <div className="flex flex-col gap-y-2">
+                            <p className='text-5xl z-10 font-bold modern text-primary'>0{category.id}</p>
+                            <p className='text-3xl z-10 font-semibold modern text-white'>{category.main}</p>
                         </div>
 
-                        <div className="w-16 h-20 text-xl bg-gray-300 rounded-full flex items-center justify-center transition-all duration-500 group-hover:rotate-90 group-hover:bg-gray-600 group-hover:border-white group-hover:-translate-x-8">
+                        <div className='flex items-center gap-x-4 z-10 opacity-0 translate-x-10 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100'>
+                            <Separator orientation='vertical' className='h-20 bg-primary w-[3px]' />
+                            <p className='text-xl text-white max-w-lg'>{category.text}</p>
+                        </div>
+
+                        <div className="w-16 z-10 h-20 text-xl bg-gray-300 rounded-full flex items-center justify-center transition-all duration-500 group-hover:rotate-90 group-hover:bg-gray-600 group-hover:border-white">
                             <FaArrowDown className='group-hover:-rotate-180 transition-all duration-500 group-hover:text-white' />
                         </div>
                     </div>

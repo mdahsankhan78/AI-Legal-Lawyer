@@ -18,7 +18,7 @@ const Features = () => {
                     Guidance, Adovance, Results
                     <Separator className='w-20 h-[2px]' />
                 </div>
-                <p className='text-3xl font-semibold'>Expert {''}
+                <p className='text-4xl font-semibold'>Expert {''}
                     <span className="text-primary">
                         Legal Solutions
                     </span> Tailored To Your Specific Needs
