@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Separator } from './../ui/Separator'
+import { Separator } from './../ui/separator'
 import AboutTabs from './Tabs'
 import { FaPlay } from 'react-icons/fa'
 import Video from './Video'
