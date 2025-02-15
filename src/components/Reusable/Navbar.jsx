@@ -2,8 +2,9 @@ import React from 'react'
 import { Separator } from './../ui/separator'
 import TopNav from './TopNav'
 import CustomButton from './CustomButton'
+import Links from './Links'
 
-const navlinks = [
+export const navlinks = [
     { title: 'Home', path: '#' },
     { title: 'About Us', path: '#about-us' },
     { title: 'Features', path: '#features' },
@@ -24,11 +25,7 @@ const Navbar = () => {
                         </a>
                         {/* <div className="h-full w-2 bg-white"></div> */}
                         <Separator orientation='vertical' className='h-10 bg-primary' />
-                        <div className="hidden lg:flex lg:gap-x-12 ml-16">
-                            {navlinks.map((link, i) => (
-                                <a key={i} href={link.path} className="text-sm/6 font-semibold text-white hover:text-primary">{link.title}</a>
-                            ))}
-                        </div>
+                        <Links className={'ml-16 gap-12 font-semibold'}/>
                     </div>
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">

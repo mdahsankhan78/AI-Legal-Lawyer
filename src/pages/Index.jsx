@@ -4,6 +4,8 @@ import About from '../components/AboutUs/About'
 import Features from '../components/Features/Features'
 import Categories from '../components/Categories/Categories'
 import ContactUs from '../components/ContactUs/ContactUs'
+import Carousel from '../components/Blogs/Carousel'
+import Footer from '../components/Reusable/Footer'
 
 const Index = () => {
   return (
@@ -13,6 +15,8 @@ const Index = () => {
       <Features/>
       <Categories/>
       <ContactUs/>
+      <Carousel/>
+      <Footer/>
     </div>
   )
 }
