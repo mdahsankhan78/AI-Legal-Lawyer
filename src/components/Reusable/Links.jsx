@@ -2,12 +2,12 @@ import React from 'react'
 import { navlinks } from './Navbar'
 import { categories } from '../Home/CategorySwiper'
 
-const Links = ({ className, type }) => {
+const Links = ({ className, type, linksStyles }) => {
     return (
-        <div className={`hidden lg:flex ${className}`}>
+        <div className={`flex ${className}`}>
             {type !== 'category' ?
                 navlinks.map((link, i) => (
-                    <a key={i} href={link.path} className=" text-white hover:text-primary">{link.title}</a>
+                    <a key={i} href={link.path} className={` text-white hover:text-primary ${linksStyles}`}>{link.title}</a>
                 ))
                 :
                 categories.map((link, i) => (

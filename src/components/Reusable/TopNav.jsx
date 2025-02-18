@@ -6,8 +6,8 @@ import { Separator } from './../ui/separator'
 
 const TopNav = () => {
     return (
-        <div className='flex items-center justify-between py-2 px-6 lg:px-8'>
-            <div className="flex items-center gap-x-2">
+        <div className='sm:flex items-center justify-between py-2 px-6 lg:px-8'>
+            <div className="flex items-center justify-center md:justify-start gap-x-2">
                 <div className="flex items-center justify-center bg-primary rounded-full h-6 w-6">
                     <FaYoutube />
                 </div>
@@ -22,7 +22,7 @@ const TopNav = () => {
                 </div>
             </div>
 
-            <div className="flex items-center gap-x-3">
+            <div className="hidden md:flex items-center gap-x-3">
                 <div className="flex items-center gap-x-2">
                     <div className="flex items-center justify-center bg-black/50 border-primary border text-primary rounded-full h-6 w-6">
                         <FaPhone />
@@ -31,7 +31,7 @@ const TopNav = () => {
                         Call us: +00-123-456789
                     </span>
                 </div>
-                <Separator orientation='vertical' className='h-4 bg-primary' />
+                <Separator orientation='vertical' className='h-4 bg-primary hidden md:block' />
                 <div className="flex items-center gap-x-2">
                     <div className="flex items-center justify-center bg-black/50 border-primary border text-primary rounded-full h-6 w-6">
                         <MdEmail />

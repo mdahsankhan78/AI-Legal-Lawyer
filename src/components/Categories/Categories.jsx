@@ -11,9 +11,9 @@ const Categories = () => {
         <div className="flex flex-col gap-y-8 paddingx py-20 items-center" id='categories'>
             <div className="flex-col flex gap-y-4 text-center max-w-2xl modern">
                 <div className="text-primary font-semibold text-xl flex gap-x-2 items-center justify-center whitespace-nowrap">
-                    <Separator className='w-20 h-[2px]' />
+                    <Separator className='sm:w-20 w-10 h-[2px]' />
                     Where Justice Meets Strategy
-                    <Separator className='w-20 h-[2px]' />
+                    <Separator className='sm:w-20 w-10 h-[2px]' />
                 </div>
                 <p className='text-4xl font-semibold'>Our practice areas of {''}
                     <span className="text-primary">
@@ -24,9 +24,9 @@ const Categories = () => {
 
             <div className="flex flex-col gap-y-4 w-full">
                 {categories.map((category, i) => (
-                    <div key={i} className={`bg-cover bg-center flex justify-between items-center p-8 min-h-60 transition-all relative group`} onMouseEnter={() => setIsHover(category.id)} onMouseLeave={() => setIsHover()} style={{ backgroundImage: `url(/categories/${category.img2})` }}>
+                    <div key={i} className={`bg-cover bg-center flex md:flex-row flex-col justify-between items-center p-8 min-h-60 transition-all relative group`} onMouseEnter={() => setIsHover(category.id)} onMouseLeave={() => setIsHover()} style={{ backgroundImage: `url(/categories/${category.img2})` }}>
                         <div className="absolute bg-black/50 inset-0"></div>
-                        <div className="flex flex-col gap-y-2">
+                        <div className="flex flex-col gap-y-2 items-center text-center">
                             <p className='text-5xl z-10 font-bold modern text-primary'>0{category.id}</p>
                             <p className='text-3xl z-10 font-semibold modern text-white'>{category.main}</p>
                         </div>

@@ -43,9 +43,9 @@ const Carousel = () => {
         <section className="py-20 paddingx">
             <div className="flex-col flex gap-y-4 text-center modern">
                 <div className="text-primary font-semibold text-xl flex gap-x-2 items-center justify-center whitespace-nowrap">
-                    <Separator className='w-20 h-[2px]' />
+                    <Separator className='sm:w-20 w-10 h-[2px]' />
                     Every success has a Story
-                    <Separator className='w-20 h-[2px]' />
+                    <Separator className='sm:w-20 w-10 h-[2px]' />
                 </div>
                 <p className='text-4xl font-semibold'>Turning your goals into {''}
                     <span className="text-primary">
