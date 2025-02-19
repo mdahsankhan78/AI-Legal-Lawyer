@@ -65,7 +65,7 @@ const Hero = () => {
                             </p>
 
                             <div className="mt-8">
-                                <CustomButton text={'GET CONSULATION'} bg={'primary'} px={'px-10'} />
+                                <CustomButton to={'/register'} text={'GET CONSULATION'} bg={'primary'} px={'px-10'} />
                             </div>
                         </div>
 

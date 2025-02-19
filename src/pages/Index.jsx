@@ -6,10 +6,12 @@ import Categories from '../components/Categories/Categories'
 import ContactUs from '../components/ContactUs/ContactUs'
 import Carousel from '../components/Blogs/Carousel'
 import Footer from '../components/Reusable/Footer'
+import Navbar from '../components/Reusable/Navbar'
 
 const Index = () => {
   return (
     <div>
+      <Navbar />
       <Hero />
       <About />
       <Features/>

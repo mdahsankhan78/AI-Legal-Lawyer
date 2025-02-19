@@ -6,8 +6,8 @@ import Links from './Links'
 const Footer = () => {
     return (
         <div className='paddingx py-20 bg-[url(/categories/category1.jpeg)] text-white text-xl modern bg-center bg-cover relative bg-no-repeat'>
-            <div className='absolute inset-0 bg-white opacity-20'></div>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 items-center relative z-10 opacity-100'>
+            <div className='absolute inset-0 bg-black/70'></div>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 items-center relative z-10'>
                 <div className="col-span-1 flex flex-col gap-y-8 items-start">
                     <img src="/logo.svg" className='h-16' alt="" />
                     <p>Get in touch with us we're here to help!</p>

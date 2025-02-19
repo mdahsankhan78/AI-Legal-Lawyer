@@ -4,6 +4,7 @@ import TopNav from './TopNav'
 import CustomButton from './CustomButton'
 import Links from './Links'
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom'
 
 export const navlinks = [
     { title: 'Home', path: '#' },
@@ -24,6 +25,7 @@ const Navbar = () => {
 
         return () => window.removeEventListener("scroll", scrollYPos);
     }, []);
+
     return (
         <>
             <header className={`${header ? 'sticky top-0 shadow-md' : 'absolute inset-x-0 top-0 '} z-50`}>
@@ -40,7 +42,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <CustomButton text={'Get Started'} color={'white'} bg={'primary'} px={'px-10'} />
+                        <CustomButton to={'/login'} text={'Get Started'} color={'white'} bg={'primary'} px={'px-10'} />
                     </div>
 
                     {/* mobile menu icon */}
