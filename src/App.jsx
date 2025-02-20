@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import AOS from 'aos';
 import { useEffect, useState } from "react";
 import Auth from "./pages/Auth";
+import Chat from "./pages/Chat";
 
 function App() {
   const [animate, setAnimate] = useState(true);
@@ -38,6 +39,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
+            <Route path="/chat" element={<Chat />} />
           </Routes>
         </Router>
       )}
