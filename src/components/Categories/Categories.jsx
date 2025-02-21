@@ -24,7 +24,7 @@ const Categories = () => {
 
             <div className="flex flex-col gap-y-4 w-full">
                 {categories.map((category, i) => (
-                    <div key={i} className={`bg-cover bg-center flex md:flex-row flex-col justify-between items-center p-8 min-h-60 transition-all relative group`} onMouseEnter={() => setIsHover(category.id)} onMouseLeave={() => setIsHover()} style={{ backgroundImage: `url(/categories/${category.img2})` }}>
+                    <div key={i} className={`bg-cover bg-center flex md:flex-row flex-col justify-between items-center gap-8 p-8 min-h-60 transition-all relative group`} onMouseEnter={() => setIsHover(category.id)} onMouseLeave={() => setIsHover()} style={{ backgroundImage: `url(/categories/${category.img2})` }}>
                         <div className="absolute bg-black/50 inset-0"></div>
                         <div className="flex flex-col gap-y-2 items-center text-center">
                             <p className='text-5xl z-10 font-bold modern text-primary'>0{category.id}</p>

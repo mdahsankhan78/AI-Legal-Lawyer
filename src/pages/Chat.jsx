@@ -3,7 +3,7 @@ import Chatbox from '../components/Chat/Chatbox'
 
 const Chat = () => {
   return (
-    <div>
+    <div className='bg-destructive-foreground'>
         <Chatbox/>
     </div>
   )

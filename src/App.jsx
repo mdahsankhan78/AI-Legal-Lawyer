@@ -7,43 +7,64 @@ import AOS from 'aos';
 import { useEffect, useState } from "react";
 import Auth from "./pages/Auth";
 import Chat from "./pages/Chat";
+import GoToTop from "./components/Reusable/GoToTop";
 
 function App() {
+  const [showGoToTop, setShowGoToTop] = useState(false);
   const [animate, setAnimate] = useState(true);
 
   useEffect(() => {
     AOS.init({ duration: 600, easing: 'ease-in-out' });
 
     const timer = setTimeout(() => {
-      setAnimate(false); 
+      setAnimate(false);
     }, 6000);
 
     return () => clearTimeout(timer);
   }, []);
 
   const lottieOptions = {
-    loop: true, 
-    autoplay: true, 
-    animationData: animationData, 
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > 300) {
+      setShowGoToTop(true);
+    } else {
+      setShowGoToTop(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <>
+    <div className="relative">
       {animate ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-destructive">
           <Lottie options={lottieOptions} height={400} width={400} />
         </div>
       ) : (
-        <Router>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Auth />} />
-            <Route path="/register" element={<Auth />} />
-            <Route path="/chat" element={<Chat />} />
-          </Routes>
-        </Router>
+        <>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Auth />} />
+              <Route path="/register" element={<Auth />} />
+              <Route path="/chat" element={<Chat />} />
+            </Routes>
+          </Router>
+          {showGoToTop && <GoToTop />}
+        </>
       )}
-    </>
+    </div>
   )
 }
 

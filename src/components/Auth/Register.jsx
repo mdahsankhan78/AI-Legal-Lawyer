@@ -21,7 +21,7 @@ const Register = () => {
 
             <p>Already have an account? <Link to={'/login'} className='text-primary hover:text-primary'>Login</Link></p>
 
-            <CustomButton text={'Register'} color={'white'} bg={'primary'} px={'px-10'} />
+            <CustomButton to={'/chat'} text={'Register'} color={'white'} bg={'primary'} px={'px-10'} />
         </div>
     )
 }

@@ -20,7 +20,7 @@ const Login = () => {
 
             <p>Don't have an account? <Link to={'/register'} className='text-primary hover:text-primary'>Register</Link></p>
 
-            <CustomButton text={'Login'} color={'white'} bg={'primary'} px={'px-10'} />
+            <CustomButton to={'/chat'} text={'Login'} color={'white'} bg={'primary'} px={'px-10'} />
         </div>
     )
 }

@@ -22,8 +22,8 @@ const Carousel = () => {
         <>
             {blogs.map((blog, i) => (
                 <SwiperSlide key={i}>
-                    <div className={`flex gap-x-3 items-center cursor-pointer relative group`} >
-                        <img src={`/blogs/${blog.img}`} className='h-full min-h-60 filter grayscale group-hover:filter-none' alt="" />
+                    <div className={`flex gap-x-3 items-center cursor-pointer relative group`}>
+                        <img src={`/blogs/${blog.img}`} className='h-full min-h-60 object-contain filter grayscale group-hover:filter-none' alt="" />
                         <div className="absolute px-4 py-3 -bottom-4 group-hover:bottom-4 right-4 left-4 bg-white z-10 transition-all duration-500 opacity-0 group-hover:opacity-100">
                             <div className="flex flex-col">
                                 <p className='text-lg modern'>{blog.date}</p>
