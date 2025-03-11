@@ -97,17 +97,16 @@ export const analyzeDocument = async (file) => {
 };
 
 export const legalQuery = async (question, context) => {
-    const token = localStorage.getItem("token");
-
     try {
         const response = await api.post(
             apis.query,
             { question, context },
-            { headers: { Authorization: `Bearer ${token}` } }
         );
         console.log("Query Response:", response.data);
+        return(response.data)
     } catch (error) {
         console.error("Query error:", error.response.data);
+        return(error.response.data)
     }
 };
 

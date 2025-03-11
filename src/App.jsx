@@ -72,7 +72,7 @@ function App() {
       }
     }
     fetchUser()
-  }, [location]);
+  }, []);
 
   return (
     <div className="relative">

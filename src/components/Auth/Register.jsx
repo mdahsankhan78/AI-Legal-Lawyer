@@ -43,7 +43,7 @@ const Register = () => {
             <p>Already have an account? <Link to={'/login'} className='text-primary hover:text-primary'>Login</Link></p>
             {msg && <p className='text-red-500'>{msg}</p>}
 
-            <CustomButton type='submit' text={'Register'} loading={loading} color={'white'} bg={'primary'} px={'px-10'} />
+            <CustomButton disabled={loading} type='submit' text={'Register'} loading={loading} color={'white'} bg={'primary'} px={'px-10'} />
         </form>
     )
 }

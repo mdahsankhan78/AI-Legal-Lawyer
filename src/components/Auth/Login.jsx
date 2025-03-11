@@ -19,7 +19,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true)
         const res = await loginUser(data.email, data.password);
-        if (res) {
+        if (res==='Logged in successfully') {
             setMsg(res)
             setLoading(false)
             navigate('/chat')
@@ -41,7 +41,7 @@ const Login = () => {
             <p>Don't have an account? <Link to={'/register'} className='text-primary hover:text-primary'>Register</Link></p>
             {msg && <p className='text-red-500'>{msg}</p>}
 
-            <CustomButton type='submit' text={'Login'} loading={loading} color={'white'} bg={'primary'} px={'px-10'} />
+            <CustomButton disabled={loading} type='submit' text={'Login'} loading={loading} color={'white'} bg={'primary'} px={'px-10'} />
         </form>
     )
 }

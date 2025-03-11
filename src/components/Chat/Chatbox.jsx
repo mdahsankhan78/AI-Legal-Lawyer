@@ -1,20 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import useEncryptedLocalStorage from "./../../api/EncryptedStorage";
+import { legalQuery } from '../../api/apis';
 
 const Chatbox = () => {
     const { setEncryptedItem, getEncryptedItem } = useEncryptedLocalStorage();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [user, setUser] = useState();
+    const [data, setData] = useState({ question: '', answer: '',context:'' });
+    const [loading, setLoading] = useState(false);
+
+    const handleInput = async (e) => {
+        setData({ ...data, [e.target.name]: e.target.value })
+    };
+
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         const user = getEncryptedItem('user');
         setUser(user)
-    },[])
+    }, [])
+
+    const handleQuery = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        const res = await legalQuery(data.question, data.context);
+        if (res) {
+            setLoading(false)
+            console.log(res);
+            
+        }
+    };
 
     return (
         <div className='flex'>
@@ -85,7 +104,7 @@ const Chatbox = () => {
                                 <div class="max-w-2xl flex gap-x-2 sm:gap-x-4">
                                     <span class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
                                         <span class="text-sm font-medium text-white leading-none">
-                                            {user ? user.name.split(' ').slice(0, 2).map(part => part.charAt(0).toUpperCase()).join(""):'A'}
+                                            {user ? user.name.split(' ').slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("") : 'A'}
                                         </span>
                                     </span>
 
@@ -111,22 +130,14 @@ const Chatbox = () => {
                                     <span class="">
                                         <svg class=" size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                     </span>
-
-                                    {/* <span class="absolute -top-0.5 -end-0.5">
-                                        <span class="relative flex">
-                                            <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75"></span>
-                                            <span class="relative inline-flex size-2 bg-red-500 rounded-full"></span>
-                                            <span class="sr-only">Notification</span>
-                                        </span>
-                                    </span> */}
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {/* <!-- Input --> */}
-                    <div class="relative">
-                        <textarea class="p-4 pb-12 block w-full bg-destructive-foreground border border-primary text-sm focus:outline-none max-h-24 min-h-24" placeholder="Ask me anything..."></textarea>
+                    <form onSubmit={handleQuery} class="relative">
+                        <textarea onChange={handleInput} class="p-4 pb-12 block w-full bg-destructive-foreground border border-primary text-sm focus:outline-none max-h-24 min-h-24" placeholder="Ask me anything..." required></textarea>
 
                         {/* <!-- Toolbar --> */}
                         <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-transparent">
@@ -145,7 +156,7 @@ const Chatbox = () => {
                                 {/* <!-- Button Group --> */}
                                 <div class="flex items-center gap-x-1">
                                     {/* <!-- Send Button --> */}
-                                    <button type="button" class="inline-flex shrink-0 justify-center items-center size-8  text-white bg-primary focus:z-10 focus:outline-none">
+                                    <button type="submit" class="inline-flex shrink-0 justify-center items-center size-8  text-white bg-primary focus:z-10 focus:outline-none">
                                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                             <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
                                         </svg>
@@ -156,7 +167,7 @@ const Chatbox = () => {
                             </div>
                         </div>
                         {/* <!-- End Toolbar --> */}
-                    </div>
+                    </form>
                     {/* <!-- End Input --> */}
                 </div>
                 {/* <!-- End Textarea --> */}
