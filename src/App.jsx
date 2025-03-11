@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import Index from "./pages/Index"
 import Lottie from "react-lottie";
 import animationData from "./../public/loading.json";
@@ -8,19 +8,20 @@ import { useEffect, useState } from "react";
 import Auth from "./pages/Auth";
 import Chat from "./pages/Chat";
 import GoToTop from "./components/Reusable/GoToTop";
+import { getCurrentUser } from "./api/apis";
+import useEncryptedLocalStorage from "./api/EncryptedStorage";
 
 function App() {
+  const { setEncryptedItem, getEncryptedItem } = useEncryptedLocalStorage();
   const [showGoToTop, setShowGoToTop] = useState(false);
   const [animate, setAnimate] = useState(true);
+  const [user, setUser] = useState();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     AOS.init({ duration: 600, easing: 'ease-in-out' });
 
-    const timer = setTimeout(() => {
-      setAnimate(false);
-    }, 6000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   const lottieOptions = {
@@ -45,6 +46,34 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      // debugger
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const currentUser = await getCurrentUser(token);
+          if (currentUser === 'User not logged in') {
+            navigate('/login');
+            setAnimate(false);
+          } else if (currentUser) {
+            setAnimate(false)
+            setUser(currentUser);
+            setEncryptedItem('user', currentUser)
+          }
+        } catch (error) {
+          console.error("Error fetching user:", error);
+          setAnimate(false);
+          navigate('/login');
+        }
+      } else {
+        navigate('/login');
+        setAnimate(false);
+      }
+    }
+    fetchUser()
+  }, [location]);
+
   return (
     <div className="relative">
       {animate ? (
@@ -53,14 +82,12 @@ function App() {
         </div>
       ) : (
         <>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Auth />} />
-              <Route path="/register" element={<Auth />} />
-              <Route path="/chat" element={<Chat />} />
-            </Routes>
-          </Router>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Auth />} />
+            <Route path="/register" element={<Auth />} />
+            <Route path="/chat" element={<Chat />} />
+          </Routes>
           {showGoToTop && <GoToTop />}
         </>
       )}
