@@ -33,9 +33,9 @@ const ContactUs = () => {
 
                     <div className="flex-col flex gap-y-4 max-w-2xl modern">
                         <div className="text-white font-semibold text-xl flex gap-x-2 items-center whitespace-nowrap">
-                            <Separator className='sm:w-20 w-10 h-[2px]' />
+                            <Separator className='lg:w-20 w-8 h-[2px]' />
                             Strategy, Plan, Execute
-                            <Separator className='sm:w-20 w-10 h-[2px]' />
+                            <Separator className='lg:w-20 w-8 h-[2px]' />
                         </div>
                         <p className='text-5xl font-normal text-white'>
                             Get Expert <span className="text-primary">Insights</span>

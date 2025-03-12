@@ -33,9 +33,9 @@ const About = () => {
 
             <div className="col-span-1 flex flex-col gap-y-4 modern md:items-start items-center">
                 <div className="text-primary font-semibold text-xl flex gap-x-2 items-center whitespace-nowrap">
-                    <Separator className='lg:w-20 w-10 h-[2px]' />
+                    <Separator className='lg:w-20 w-8 h-[2px]' />
                     Welcome to AI-Legal Lawyer
-                    <Separator className='lg:w-20 w-10 h-[2px]' />
+                    <Separator className='lg:w-20 w-8 h-[2px]' />
                 </div>
                 <p className=''></p>
                 <p className='text-4xl font-semibold'>We Integrate AI to <span className="text-primary">Strengthen</span> your battle for Justice</p>

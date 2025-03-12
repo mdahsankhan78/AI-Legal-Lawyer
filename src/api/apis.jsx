@@ -51,7 +51,7 @@ export const loginUser = async (email, password) => {
 
         localStorage.setItem("token", response.data.access_token);
         return ('Logged in successfully')
-        
+
     } catch (error) {
         console.error("Login error:", error.response.data);
         if (error.response.data && error.response.status === 400) {
@@ -72,8 +72,8 @@ export const getCurrentUser = async (token) => {
             });
             return (response.data)
         }
-        else{
-            return('User not logged in')
+        else {
+            return ('User not logged in')
         }
     } catch (error) {
         return (error.response.message);
@@ -96,17 +96,17 @@ export const analyzeDocument = async (file) => {
     }
 };
 
-export const legalQuery = async (question, context) => {
+export const legalQuery = async (question) => {
     try {
         const response = await api.post(
             apis.query,
-            { question, context },
+            { question },
         );
         console.log("Query Response:", response.data);
-        return(response.data)
+        return (response.data)
     } catch (error) {
         console.error("Query error:", error.response.data);
-        return(error.response.data)
+        return (error.response.data)
     }
 };
 

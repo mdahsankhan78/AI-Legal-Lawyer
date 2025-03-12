@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import useEncryptedLocalStorage from "./../../api/EncryptedStorage";
-import { legalQuery } from '../../api/apis';
+import { analyzeDocument, legalQuery } from '../../api/apis';
 
 const Chatbox = () => {
     const { setEncryptedItem, getEncryptedItem } = useEncryptedLocalStorage();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [user, setUser] = useState();
-    const [data, setData] = useState({ question: '', answer: '',context:'' });
+    const [query, setQuery] = useState([])
+    const [question, setQuestion] = useState('')
+    const [document, setDocument] = useState('')
     const [loading, setLoading] = useState(false);
 
     const handleInput = async (e) => {
-        setData({ ...data, [e.target.name]: e.target.value })
+        setQuestion(e.target.value);
     };
-
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -26,14 +27,41 @@ const Chatbox = () => {
 
     const handleQuery = async (e) => {
         e.preventDefault();
-        setLoading(true)
-        const res = await legalQuery(data.question, data.context);
-        if (res) {
-            setLoading(false)
-            console.log(res);
-            
+        if (document != '') {
+            setQuery(prevQuery => [
+                ...prevQuery,
+                { question: question, answer: '' }
+            ]);
+            setQuestion('')
+            const res = await legalQuery(question);
+            if (res) {
+                console.log("Response: ", response.data);
+                setQuery(prevQuery => prevQuery.map((q, i) => {
+                    if (q.question === question && q.answer === '') {
+                        return { ...q, answer: res };
+                    }
+                    return q;
+                }));
+            }
         }
-    };
+        else {
+            setQuery(prevQuery => [
+                ...prevQuery,
+                { document: document, answer: '' }
+            ]);
+            setDocument('')
+            const res = await analyzeDocument(document);
+            if (res) {
+                console.log("Response: ", response.data);
+                setQuery(prevQuery => prevQuery.map((q, i) => {
+                    if (q.document === document && q.answer === '') {
+                        return { ...q, answer: res };
+                    }
+                    return q;
+                }));
+            }
+        }
+    }
 
     return (
         <div className='flex'>
@@ -51,73 +79,79 @@ const Chatbox = () => {
                 </div>
 
                 <div class="py-10 lg:py-14">
-                    {/* <!-- Title --> */}
-                    <div class="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
-                        <h1 class="text-3xl font-bold sm:text-4xl modern">
-                            Welcome to AI Legal Lawyer
-                        </h1>
-                        <p class="mt-3">
-                            Your AI-powered copilot for the web
-                        </p>
-                    </div>
-                    {/* <!-- End Title --> */}
+                    {query.length > 0 ?
 
-                    <ul class="mt-16 space-y-5">
-                        {/* <!-- Chat Bubble --> */}
-                        <li class="max-w-4xl py-2 px-4 sm:px-6 lg:px-8 mx-auto flex gap-x-2 sm:gap-x-4">
-                            <svg class="shrink-0 size-[38px] rounded-full" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="38" height="38" rx="6" fill="#a69d84" />
-                                <path d="M10 28V18.64C10 13.8683 14.0294 10 19 10C23.9706 10 28 13.8683 28 18.64C28 23.4117 23.9706 27.28 19 27.28H18.25" stroke="white" stroke-width="1.5" />
-                                <path d="M13 28V18.7552C13 15.5104 15.6863 12.88 19 12.88C22.3137 12.88 25 15.5104 25 18.7552C25 22 22.3137 24.6304 19 24.6304H18.25" stroke="white" stroke-width="1.5" />
-                                <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
-                            </svg>
+                        <ul class="mt-16 space-y-5">
+                            {query.map((q, i) => (
+                                <>
+                                    {/* <!-- Chat Bubble --> */}
+                                    <li class="max-w-4xl py-2 px-4 sm:px-6 lg:px-8 mx-auto flex gap-x-2 sm:gap-x-4">
+                                        <svg class="shrink-0 size-[38px] rounded-full" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="38" height="38" rx="6" fill="#a69d84" />
+                                            <path d="M10 28V18.64C10 13.8683 14.0294 10 19 10C23.9706 10 28 13.8683 28 18.64C28 23.4117 23.9706 27.28 19 27.28H18.25" stroke="white" stroke-width="1.5" />
+                                            <path d="M13 28V18.7552C13 15.5104 15.6863 12.88 19 12.88C22.3137 12.88 25 15.5104 25 18.7552C25 22 22.3137 24.6304 19 24.6304H18.25" stroke="white" stroke-width="1.5" />
+                                            <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
+                                        </svg>
 
-                            <div class="space-y-3">
-                                <h2 class="font-medium ">
-                                    How can we help?
-                                </h2>
-                                <div class="space-y-1.5">
-                                    <p class="mb-1.5 text-sm ">
-                                        You can ask questions like:
-                                    </p>
-                                    <ul class="list-disc list-outside space-y-1.5 ps-3.5">
-                                        <li class="text-sm">
-                                            What's Preline UI?
-                                        </li>
+                                        <div class="space-y-3">
+                                            <h2 class="font-medium ">
+                                                How can we help?
+                                            </h2>
+                                            <div class="space-y-1.5">
+                                                <p class="mb-1.5 text-sm ">
+                                                    You can ask questions like:
+                                                </p>
+                                                <ul class="list-disc list-outside space-y-1.5 ps-3.5">
+                                                    <li class="text-sm">
+                                                        What's Preline UI?
+                                                    </li>
 
-                                        <li class="text-sm ">
-                                            How many Starter Pages & Examples are there?
-                                        </li>
+                                                    <li class="text-sm ">
+                                                        How many Starter Pages & Examples are there?
+                                                    </li>
 
-                                        <li class="text-sm ">
-                                            Is there a PRO version?
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        {/* <!-- End Chat Bubble --> */}
+                                                    <li class="text-sm ">
+                                                        Is there a PRO version?
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {/* <!-- End Chat Bubble --> */}
 
-                        {/* <!-- Chat Bubble --> */}
-                        <li class="py-2 sm:py-4">
-                            <div class="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
-                                <div class="max-w-2xl flex gap-x-2 sm:gap-x-4">
-                                    <span class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
-                                        <span class="text-sm font-medium text-white leading-none">
-                                            {user ? user.name.split(' ').slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("") : 'A'}
-                                        </span>
-                                    </span>
+                                    {/* <!-- Chat Bubble --> */}
+                                    <li class="py-2 sm:py-4">
+                                        <div class="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
+                                            <div class="max-w-2xl flex gap-x-2 sm:gap-x-4">
+                                                <span class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
+                                                    <span class="text-sm font-medium text-white leading-none">
+                                                        {user ? user.name.split(' ').slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("") : 'A'}
+                                                    </span>
+                                                </span>
 
-                                    <div class="grow mt-2 space-y-3">
-                                        <p>
-                                            what's preline ui?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        {/* <!-- End Chat Bubble --> */}
-                    </ul>
+                                                <div class="grow mt-2 space-y-3">
+                                                    <p>
+                                                        what's preline ui?
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {/* <!-- End Chat Bubble --> */}
+                                </>
+                            ))}
+                        </ul>
+                        :
+
+                        <div class="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
+                            <h1 class="text-3xl font-bold sm:text-4xl modern">
+                                Welcome to AI Legal Lawyer
+                            </h1>
+                            <p class="mt-3">
+                                Your AI-powered copilot for the web
+                            </p>
+                        </div>
+                    }
                 </div>
 
                 {/* <!-- Textarea --> */}
@@ -137,7 +171,7 @@ const Chatbox = () => {
 
                     {/* <!-- Input --> */}
                     <form onSubmit={handleQuery} class="relative">
-                        <textarea onChange={handleInput} class="p-4 pb-12 block w-full bg-destructive-foreground border border-primary text-sm focus:outline-none max-h-24 min-h-24" placeholder="Ask me anything..." required></textarea>
+                        <textarea onChange={handleInput} value={question} class="p-4 pb-12 block w-full bg-destructive-foreground border border-primary text-sm focus:outline-none max-h-24 min-h-24" placeholder="Ask me anything..." required></textarea>
 
                         {/* <!-- Toolbar --> */}
                         <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-transparent">
@@ -156,7 +190,8 @@ const Chatbox = () => {
                                 {/* <!-- Button Group --> */}
                                 <div class="flex items-center gap-x-1">
                                     {/* <!-- Send Button --> */}
-                                    <button type="submit" class="inline-flex shrink-0 justify-center items-center size-8  text-white bg-primary focus:z-10 focus:outline-none">
+                                    <button
+                                        disabled={question === '' || query.some(q => q.answer === '')} type="submit" class="inline-flex shrink-0 justify-center items-center size-8  text-white bg-primary focus:z-10 focus:outline-none">
                                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                             <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
                                         </svg>

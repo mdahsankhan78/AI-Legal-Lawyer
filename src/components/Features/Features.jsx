@@ -14,9 +14,9 @@ const Features = () => {
         <div className="flex flex-col gap-y-8 paddingx py-20 items-center" id='features'>
             <div className="flex-col flex gap-y-4 text-center max-w-2xl modern">
                 <div className="text-primary font-semibold text-xl flex gap-x-2 items-center justify-center whitespace-nowrap">
-                    <Separator className='sm:w-20 w-10 h-[2px]' />
+                    <Separator className='lg:w-20 w-8 h-[2px]' />
                     Guidance, Adovance, Results
-                    <Separator className='sm:w-20 w-10 h-[2px]' />
+                    <Separator className='lg:w-20 w-8 h-[2px]' />
                 </div>
                 <p className='text-4xl font-semibold'>Expert {''}
                     <span className="text-primary">

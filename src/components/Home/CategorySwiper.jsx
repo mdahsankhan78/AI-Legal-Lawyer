@@ -31,7 +31,7 @@ const CategorySwiper = ({onChange}) => {
     );
 
     return (
-        <section className=" backdrop-blur-md py-4 paddingx">
+        <section className="backdrop-blur-md py-4 paddingx">
             <div className="mx-auto px-4 sm:px-0">
                 <Swiper
                     slidesPerView={1}

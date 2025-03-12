@@ -54,7 +54,7 @@ function App() {
         try {
           const currentUser = await getCurrentUser(token);
           if (currentUser === 'User not logged in') {
-            navigate('/login');
+            navigate('/');
             setAnimate(false);
           } else if (currentUser) {
             setAnimate(false)
@@ -64,10 +64,10 @@ function App() {
         } catch (error) {
           console.error("Error fetching user:", error);
           setAnimate(false);
-          navigate('/login');
+          navigate('/');
         }
       } else {
-        navigate('/login');
+        navigate('/');
         setAnimate(false);
       }
     }

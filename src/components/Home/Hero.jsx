@@ -52,11 +52,11 @@ const Hero = () => {
                 >
                     <div className="relative isolate text-white">
                         <div className="md:w-1/2 lg:py-40 flex flex-col justify-center min-h-screen paddingx">
-                            <div data-aos='fade-right' data-aos-duration='300' className="hidden mb-4 sm:flex">
+                            <div data-aos='fade-right' data-aos-duration='300' className=" mb-4 flex">
                                 <div className="py-1 text-sm/6 flex gap-x-2 items-center whitespace-nowrap">
-                                    <Separator className='w-20' />
+                                    <Separator className='w-6 lg:w-20' />
                                     EXPERT GUIDANCE FOR EVERY LEGAL JOURNEY
-                                    <Separator className='w-20' />
+                                    <Separator className='w-6 lg:w-20' />
                                 </div>
                             </div>
                             <h1 data-aos='fade-right' data-aos-duration='450' className="text-3xl tracking-tight text-balance sm:text-5xl modern">{category.title1} <span className="text-primary">{category.title2}</span> {category.title3} </h1>
