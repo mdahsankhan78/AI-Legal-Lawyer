@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Loading = () => {
+const Loading = ({className}) => {
     return (
         // < !--From Uiverse.io by PriyanshuGupta28-- >
-        <div class="spinner">
+        <div class={`spinner ${className}`}>
             <div></div>
             <div></div>
             <div></div>

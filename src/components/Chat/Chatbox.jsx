@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import useEncryptedLocalStorage from "./../../api/EncryptedStorage";
 import { analyzeDocument, legalQuery } from '../../api/apis';
+import Loading from '../ui/loading';
 
 const Chatbox = () => {
     const { setEncryptedItem, getEncryptedItem } = useEncryptedLocalStorage();
@@ -27,7 +28,7 @@ const Chatbox = () => {
 
     const handleQuery = async (e) => {
         e.preventDefault();
-        if (document != '') {
+        if (document === '') {
             setQuery(prevQuery => [
                 ...prevQuery,
                 { question: question, answer: '' }
@@ -35,10 +36,15 @@ const Chatbox = () => {
             setQuestion('')
             const res = await legalQuery(question);
             if (res) {
-                console.log("Response: ", response.data);
+                console.log("Response: ", res.response);
                 setQuery(prevQuery => prevQuery.map((q, i) => {
                     if (q.question === question && q.answer === '') {
-                        return { ...q, answer: res };
+                        if(res.response){
+                            return { ...q, answer: res.response };
+                        }
+                        else{
+                            return { ...q, answer: 'Something went wrong, check your internet' };
+                        }
                     }
                     return q;
                 }));
@@ -52,10 +58,10 @@ const Chatbox = () => {
             setDocument('')
             const res = await analyzeDocument(document);
             if (res) {
-                console.log("Response: ", response.data);
+                console.log("Response: ", res.response);
                 setQuery(prevQuery => prevQuery.map((q, i) => {
                     if (q.document === document && q.answer === '') {
-                        return { ...q, answer: res };
+                        return { ...q, answer: res.response };
                     }
                     return q;
                 }));
@@ -83,44 +89,10 @@ const Chatbox = () => {
 
                         <ul class="mt-16 space-y-5">
                             {query.map((q, i) => (
-                                <>
-                                    {/* <!-- Chat Bubble --> */}
-                                    <li class="max-w-4xl py-2 px-4 sm:px-6 lg:px-8 mx-auto flex gap-x-2 sm:gap-x-4">
-                                        <svg class="shrink-0 size-[38px] rounded-full" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="38" height="38" rx="6" fill="#a69d84" />
-                                            <path d="M10 28V18.64C10 13.8683 14.0294 10 19 10C23.9706 10 28 13.8683 28 18.64C28 23.4117 23.9706 27.28 19 27.28H18.25" stroke="white" stroke-width="1.5" />
-                                            <path d="M13 28V18.7552C13 15.5104 15.6863 12.88 19 12.88C22.3137 12.88 25 15.5104 25 18.7552C25 22 22.3137 24.6304 19 24.6304H18.25" stroke="white" stroke-width="1.5" />
-                                            <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
-                                        </svg>
+                                <div key={i}>
 
-                                        <div class="space-y-3">
-                                            <h2 class="font-medium ">
-                                                How can we help?
-                                            </h2>
-                                            <div class="space-y-1.5">
-                                                <p class="mb-1.5 text-sm ">
-                                                    You can ask questions like:
-                                                </p>
-                                                <ul class="list-disc list-outside space-y-1.5 ps-3.5">
-                                                    <li class="text-sm">
-                                                        What's Preline UI?
-                                                    </li>
-
-                                                    <li class="text-sm ">
-                                                        How many Starter Pages & Examples are there?
-                                                    </li>
-
-                                                    <li class="text-sm ">
-                                                        Is there a PRO version?
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    {/* <!-- End Chat Bubble --> */}
-
-                                    {/* <!-- Chat Bubble --> */}
-                                    <li class="py-2 sm:py-4">
+                                   {/* <!-- Chat Bubble --> */}
+                                   <li class="py-2 sm:py-4">
                                         <div class="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
                                             <div class="max-w-2xl flex gap-x-2 sm:gap-x-4">
                                                 <span class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
@@ -131,14 +103,32 @@ const Chatbox = () => {
 
                                                 <div class="grow mt-2 space-y-3">
                                                     <p>
-                                                        what's preline ui?
+                                                        {q.question}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
                                     {/* <!-- End Chat Bubble --> */}
-                                </>
+
+                                    {/* <!-- Chat Bubble --> */}
+                                    <li class="max-w-4xl py-2 px-4 sm:px-6 lg:px-8 mx-auto flex gap-x-2 sm:gap-x-5">
+                                        <svg class="shrink-0 size-[38px] rounded-full" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="38" height="38" rx="6" fill="#a69d84" />
+                                            <path d="M10 28V18.64C10 13.8683 14.0294 10 19 10C23.9706 10 28 13.8683 28 18.64C28 23.4117 23.9706 27.28 19 27.28H18.25" stroke="white" stroke-width="1.5" />
+                                            <path d="M13 28V18.7552C13 15.5104 15.6863 12.88 19 12.88C22.3137 12.88 25 15.5104 25 18.7552C25 22 22.3137 24.6304 19 24.6304H18.25" stroke="white" stroke-width="1.5" />
+                                            <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
+                                        </svg>
+
+                                        <div>
+                                            <h2 class="font-medium ">
+                                            {q.answer !== '' ? q.answer : <Loading className={'mx-2 my-4'}/>}
+                                            </h2>
+                                        </div>
+                                    </li>
+                                    {/* <!-- End Chat Bubble --> */}
+
+                                </div>
                             ))}
                         </ul>
                         :
@@ -155,7 +145,7 @@ const Chatbox = () => {
                 </div>
 
                 {/* <!-- Textarea --> */}
-                <div class="max-w-4xl mx-auto sticky bottom-0 z-10 p-3 sm:py-6">
+                <div class="max-w-[60vw] w-full fixed bottom-0 z-10 p-3 sm:py-6 left-[20vw]">
                     <div class="lg:hidden flex justify-end mb-2 sm:mb-3">
                         <div class="lg:hidden me-2">
                             {/* <!-- Templates Dropdown --> */}
