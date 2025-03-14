@@ -69,6 +69,8 @@ button:focus-visible {
   box-shadow: white 0px 1px 4px, white 0px 0px 0px 8px;
 }
 
+
+
 @media (min-width: 768px) {
   .paddingx {
     padding-left: 2rem

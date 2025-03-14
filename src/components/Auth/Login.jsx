@@ -19,10 +19,14 @@ const Login = () => {
         e.preventDefault();
         setLoading(true)
         const res = await loginUser(data.email, data.password);
-        if (res==='Logged in successfully') {
+        if (res === 'Logged in successfully') {
             setMsg(res)
             setLoading(false)
             navigate('/chat')
+        }
+        else {
+            setMsg(res)
+            setLoading(false)
         }
     };
     return (
