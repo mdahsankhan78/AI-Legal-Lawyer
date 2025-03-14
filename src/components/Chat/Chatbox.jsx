@@ -58,12 +58,7 @@ const Chatbox = () => {
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setDocument(file);
-        }
-        else {
-            alert('File error')
-        }
+        setDocument(file);
     };
 
     const handleDeleteDocument = () => {
@@ -111,10 +106,10 @@ const Chatbox = () => {
             setDocument(null)
             const res = await analyzeDocument(document);
             if (res) {
-                console.log("Response: ", res.response);
+                console.log("Response: ", res);
                 setQuery(prevQuery => prevQuery.map((q, i) => {
                     if (q.document === document && q.answer === '') {
-                        return { ...q, answer: res.response };
+                        return { ...q, answer: res };
                     }
                     return q;
                 }));
@@ -258,7 +253,7 @@ const Chatbox = () => {
 
                     {/* <!-- Input --> */}
                     <form onSubmit={handleQuery} class="relative">
-                        <textarea onChange={handleInput} value={question} class="p-4 pb-12 block w-full bg-destructive-foreground border border-primary text-sm focus:outline-none max-h-24 min-h-24" placeholder="Ask me anything..." required></textarea>
+                        <textarea onChange={handleInput} value={question} class="p-4 pb-12 block w-full bg-destructive-foreground border border-primary text-sm focus:outline-none max-h-24 min-h-24" placeholder="Ask me anything..." required={!document}></textarea>
 
                         {/* <!-- Toolbar --> */}
                         <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-transparent">
@@ -281,7 +276,7 @@ const Chatbox = () => {
                                 <div class="flex items-center gap-x-1">
                                     {/* <!-- Send Button --> */}
                                     <button
-                                        disabled={question === '' || query.some(q => q.answer === '')} type="submit" class="inline-flex shrink-0 justify-center items-center size-8  text-white bg-primary focus:z-10 focus:outline-none">
+                                        disabled={!document && question === '' || query.some(q => q.answer === '')} type="submit" class="inline-flex shrink-0 justify-center items-center size-8  text-white bg-primary focus:z-10 focus:outline-none">
                                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                             <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
                                         </svg>

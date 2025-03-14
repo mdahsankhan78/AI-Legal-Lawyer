@@ -84,14 +84,28 @@ export const getCurrentUser = async (token) => {
 };
 
 export const analyzeDocument = async (file) => {
+    // debugger
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-        const response = await api.post(apis.analyze, formData);
+        const response = await api.post(apis.analyze, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data", // Ensure correct content type
+            }
+        });
         console.log("Analysis Result:", response.data);
+        return (response.data.response)
     } catch (error) {
         console.error("Analysis error:", error.response.data);
+        if (error.response.data && error.response.status === 500) {
+            return (error.response.data.detail);
+        }
+        else if (error.response.data && error.response.status === 401) {
+            return (error.response.data.detail);
+        } else {
+            return ('Something went wrong');
+        }
     }
 };
 
