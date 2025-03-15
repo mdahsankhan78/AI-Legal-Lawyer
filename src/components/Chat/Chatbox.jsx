@@ -58,7 +58,10 @@ const Chatbox = () => {
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
-        setDocument(file);
+        if (file) {
+            setDocument(file); // Set the file in the state
+        }
+        e.target.value = '';
     };
 
     const handleDeleteDocument = () => {
@@ -101,12 +104,11 @@ const Chatbox = () => {
         else {
             setQuery(prevQuery => [
                 ...prevQuery,
-                { question: document.name, answer: '' }
+                { question: '', answer: '', document: document }
             ]);
             setDocument(null)
             const res = await analyzeDocument(document);
             if (res) {
-                console.log("Response: ", res);
                 setQuery(prevQuery => prevQuery.map((q, i) => {
                     if (q.document === document && q.answer === '') {
                         return { ...q, answer: res };
@@ -159,7 +161,7 @@ const Chatbox = () => {
                     <svg onClick={toggleSidebar} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
 
                     {/* new chat button */}
-                    {/* <svg class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg> */}
+                    <svg class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                 </div>
 
                 <div class="py-10 lg:py-14">
@@ -180,7 +182,20 @@ const Chatbox = () => {
 
                                                 <div class="grow mt-2 space-y-3">
                                                     <p>
-                                                        {q.question}
+                                                        {q.document ? (
+                                                            <span className='flex items-center gap-2'>
+                                                                {q.document.name}
+                                                                <a href={URL.createObjectURL(q.document)} download={q.document.name} class="ml-2">
+                                                                    <svg class="shrink-0 size-4 text-white hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                                        <polyline points="7 10 12 15 17 10" />
+                                                                        <line x1="12" y1="15" x2="12" y2="3" />
+                                                                    </svg>
+                                                                </a>
+                                                            </span>
+                                                        ) : (
+                                                            q.question
+                                                        )}
                                                     </p>
                                                 </div>
                                             </div>
@@ -232,7 +247,7 @@ const Chatbox = () => {
                                 {/* <!-- Templates Dropdown --> */}
                                 <div class="hs-dropdown  relative  [--auto-close:inside] inline-flex">
                                     <button onClick={scrollToBottom} id="hs-dropdown-preview-sidebar" type="button" class="hs-dropdown-toggle  group relative flex justify-center items-center size-8 text-xs text-gray-800 bg-primary disabled:opacity-50 disabled:pointer-events-none focus:outline-none" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                                        <span class="">
+                                        <span class="text-white">
                                             <svg class=" size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                         </span>
                                     </button>

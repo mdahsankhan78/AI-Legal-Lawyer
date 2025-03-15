@@ -123,4 +123,15 @@ export const legalQuery = async (question) => {
     }
 };
 
+export const generateFIR = async (data) => {
+    try {
+        const response = await api.post(apis.fir, data);
+        console.log(response.data);
+        return (response.data)
+    } catch (error) {
+        console.error("Generating error:", error.response);
+        return (error.response.detail)
+    }
+};
+
 

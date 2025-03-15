@@ -1,10 +1,16 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const chats = [
     { title: 'how can ai be hials aghron oniia gytr ' },
     { title: 'how can ai be hials aghron oniia gytr that is a bit longer to test the truncation and ellipsis' },
     { title: 'short title' },
+]
+
+const menu = [
+    { title: 'Case Analysis',path:'/chat' },
+    { title: 'Generate FIR',path:'/generate_fir' },
 ]
 
 const Sidebar = ({ isOpen }) => {
@@ -18,7 +24,7 @@ const Sidebar = ({ isOpen }) => {
                         <nav class="size-full flex flex-col">
                             <div class="flex items-center pt-4 pe-4 ps-7">
                                 {/* <!-- Logo --> */}
-                                <a class="flex-none focus:outline-none focus:opacity-80" href="../templates.html" aria-label="Preline">
+                                <a class="flex-none focus:outline-none focus:opacity-80" aria-label="Preline">
                                     <img src="/logo.svg" alt="" />
                                 </a>
                                 {/* <!-- End Logo --> */}
@@ -35,6 +41,23 @@ const Sidebar = ({ isOpen }) => {
                                                     {chat.title}
                                                 </span>
                                             </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                                {/* <!-- End List --> */}
+                            </div>
+
+                            <div class="h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                                {/* <!-- List --> */}
+                                <p className='px-7 text-primary modern text-3xl'>Menu</p>
+                                <ul class="space-y-1.5 p-4">
+                                    {menu.map((link, i) => (
+                                        <li key={i}>
+                                            <Link to={link.path} class="flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  text-white hover:text-primary" href="#">
+                                                <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                    {link.title}
+                                                </span>
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>

@@ -10,6 +10,7 @@ import Chat from "./pages/Chat";
 import GoToTop from "./components/Reusable/GoToTop";
 import { getCurrentUser } from "./api/apis";
 import useEncryptedLocalStorage from "./api/EncryptedStorage";
+import GenerateFIR from "./pages/GenerateFIR";
 
 function App() {
   const { setEncryptedItem, getEncryptedItem } = useEncryptedLocalStorage();
@@ -87,6 +88,7 @@ function App() {
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/generate_fir" element={<GenerateFIR />} />
           </Routes>
           {showGoToTop && <GoToTop />}
         </>
