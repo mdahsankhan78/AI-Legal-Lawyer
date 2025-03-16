@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from './Sidebar'
 import useEncryptedLocalStorage from "./../../api/EncryptedStorage";
-import { analyzeDocument, legalQuery } from '../../api/apis';
+import { addChatHistory, analyzeDocument, getChatHistory, legalQuery, updateChatHistory } from '../../api/apis';
 import Loading from '../ui/loading';
 import { toast } from 'react-toastify';
 
@@ -48,12 +48,21 @@ const Chatbox = () => {
     const [query, setQuery] = useState([])
     const [question, setQuestion] = useState('')
     const [document, setDocument] = useState(null)
-    const [loading, setLoading] = useState(false);
     const [showScrollButton, setShowScrollButton] = useState(false);
     const chatContainerRef = useRef(null);
+    const [historyId, setHistoryId] = useState(null);
 
     const handleInput = async (e) => {
         setQuestion(e.target.value);
+    };
+
+    const fetchChatHistory = async () => {
+        const response = await getChatHistory();
+        if (response.histories.length > 0) {
+            setQuery(response.histories[0].query);
+            setHistoryId(response.histories[0]._id);
+            return response.histories[0]._id
+        }
     };
 
     const handleFileUpload = (e) => {
@@ -75,49 +84,51 @@ const Chatbox = () => {
     useEffect(() => {
         const user = getEncryptedItem('user');
         setUser(user)
+        fetchChatHistory();
     }, [])
 
     const handleQuery = async (e) => {
         e.preventDefault();
         if (!document) {
-            setQuery(prevQuery => [
-                ...prevQuery,
-                { question: question, answer: '' }
-            ]);
-            setQuestion('')
+            const newQuery = { question: question, answer: '' };
+            setQuery(prevQuery => [...prevQuery, newQuery]);
+            setQuestion('');
+
             const res = await legalQuery(question);
             if (res) {
-                console.log("Response: ", res.response);
-                setQuery(prevQuery => prevQuery.map((q, i) => {
-                    if (q.question === question && q.answer === '') {
-                        if (res.response) {
-                            return { ...q, answer: res.response };
-                        }
-                        else {
-                            return { ...q, answer: 'Something went wrong, check your internet' };
-                        }
-                    }
-                    return q;
-                }));
+                const chatId = await fetchChatHistory();
+                const updatedQuery = { ...newQuery, answer: res.response || 'Something went wrong, check your internet' };
+                setQuery(prevQuery => prevQuery.map((q, i) => (i === prevQuery.length - 1 ? updatedQuery : q)));
+
+                // Update or add chat history
+                if (chatId) {
+                    await updateChatHistory(chatId, [...query, updatedQuery]);
+                } else {
+                    const response = await addChatHistory([updatedQuery]);
+                    setHistoryId(response._id);
+                }
             }
-        }
-        else {
-            setQuery(prevQuery => [
-                ...prevQuery,
-                { question: '', answer: '', document: document }
-            ]);
-            setDocument(null)
+        } else {
+            const newQuery = { question: '', answer: '', document: document };
+            setQuery(prevQuery => [...prevQuery, newQuery]);
+            setDocument(null);
+
             const res = await analyzeDocument(document);
             if (res) {
-                setQuery(prevQuery => prevQuery.map((q, i) => {
-                    if (q.document === document && q.answer === '') {
-                        return { ...q, answer: res };
-                    }
-                    return q;
-                }));
+                const chatId = await fetchChatHistory();
+                const updatedQuery = { ...newQuery, answer: res };
+                setQuery(prevQuery => prevQuery.map((q, i) => (i === prevQuery.length - 1 ? updatedQuery : q)));
+
+                // Update or add chat history
+                if (chatId) {
+                    await updateChatHistory(chatId, [...query, updatedQuery]);
+                } else {
+                    const response = await addChatHistory([updatedQuery]);
+                    setHistoryId(response._id);
+                }
             }
         }
-    }
+    };
 
     // Automatically scroll to bottom when new responses are added
     useEffect(() => {

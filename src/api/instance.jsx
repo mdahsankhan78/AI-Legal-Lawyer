@@ -9,6 +9,10 @@ export const apis = {
   query: '/query',
   fir: '/generate/fir',
   laws: '/upload/laws',
+  chatAdd: '/chat-history/add',
+  chatUpdate: '/chat-history/update/',
+  chatGet: '/chat-history/get',
+  chatDelete: '/chat-history/delete/',
 }
 
 const api = axios.create({
