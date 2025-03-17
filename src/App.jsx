@@ -58,8 +58,8 @@ function App() {
             navigate('/');
             setAnimate(false);
           } else if (currentUser) {
-            setAnimate(false)
             setUser(currentUser);
+            setAnimate(false)
             setEncryptedItem('user', currentUser)
           }
         } catch (error) {

@@ -34,8 +34,14 @@ const GenerateFIR = () => {
         setData({ ...data, [e.target.name]: e.target.value })
     }
 
+    // Function to check if the screen size is lg (1024px) or above
+    const isLgScreen = () => window.matchMedia('(min-width: 1024px)').matches;
     const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+        if (!isLgScreen()) {
+            if (isSidebarOpen) {
+                setIsSidebarOpen(false);
+            }
+        }
     };
 
     const handleGenerate = async (e) => {
@@ -47,23 +53,23 @@ const GenerateFIR = () => {
             setLoading(false)
         }
     };
-    
+
     return (
         <div className='flex'>
             <Sidebar isOpen={isSidebarOpen} />
 
             {/* <!-- Content --> */}
-            <div onClick={isSidebarOpen && toggleSidebar} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
+            <div onClick={toggleSidebar} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
                 <div className="sticky left-4 top-4 pl-4 flex items-center gap-x-4">
 
                     {/* toggle sidebar button */}
-                    <svg onClick={toggleSidebar} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
+                    <svg onClick={()=>setIsSidebarOpen(!isSidebarOpen)} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
 
                     {/* new chat button */}
                     <svg class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                 </div>
 
-                <form onSubmit={handleGenerate} className='py-20 flex flex-col gap-4 px-20'>
+                <form onSubmit={handleGenerate} className='py-20 flex flex-col gap-4 px-4 sm:px-8 lg:px-20'>
                     <h1 class="text-3xl font-bold sm:text-4xl modern">
                         Legal Document Drafting
                     </h1>
@@ -109,7 +115,7 @@ const GenerateFIR = () => {
                         <Label className='font-normal'>Incident Details</Label>
                         <Textarea name='details' onChange={handleChange} value={data.details} placeholder='Details' required rows='5' className='placeholder:text-gray-500'></Textarea>
                     </div>
-                    <Button className='w-40 hover:bg-primary'>{loading?<Loading/>:'Generate'}</Button>
+                    <Button className='w-40 hover:bg-primary'>{loading ? <Loading /> : 'Generate'}</Button>
                 </form>
             </div>
             {/* <!-- End Content --> */}

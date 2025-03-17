@@ -5,6 +5,7 @@ import CustomButton from './CustomButton'
 import Links from './Links'
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom'
+import useEncryptedLocalStorage from '../../api/EncryptedStorage'
 
 export const navlinks = [
     { title: 'Home', path: '#' },
@@ -15,6 +16,8 @@ export const navlinks = [
 ]
 
 const Navbar = () => {
+    const { getEncryptedItem } = useEncryptedLocalStorage();
+    const user = getEncryptedItem('user')
     const [showAside, setShowAside] = useState(false);
     const [header, setHeader] = useState(false);
 
@@ -42,7 +45,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <CustomButton to={'/login'} text={'Get Started'} color={'white'} bg={'primary'} px={'px-10'} />
+                        <CustomButton to={user?'/chat':'/register'} text={'Get Started'} color={'white'} bg={'primary'} px={'px-10'} />
                     </div>
 
                     {/* mobile menu icon */}

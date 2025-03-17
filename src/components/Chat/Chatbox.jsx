@@ -81,8 +81,14 @@ const Chatbox = () => {
         setDocument(null);
     };
 
+    // Function to check if the screen size is lg (1024px) or above
+    const isLgScreen = () => window.matchMedia('(min-width: 1024px)').matches;
     const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+        if (!isLgScreen()) {
+            if(isSidebarOpen){
+                setIsSidebarOpen(false);
+            }
+        }
     };
 
     useEffect(() => {
@@ -134,7 +140,7 @@ const Chatbox = () => {
                     await fetchChatHistory();
                     setTrigger(!trigger)
                 } else {
-                    const response = await addChatHistory([updatedQuery]);
+                    const response = await addChatHistory([updatedQuery], document);
                     await fetchChatHistory();
                     setTrigger(!trigger)
                     setHistoryId(response._id);
@@ -180,15 +186,15 @@ const Chatbox = () => {
 
     return (
         <div className='flex'>
-            <Sidebar isOpen={isSidebarOpen} trigger={trigger}/>
+            <Sidebar isOpen={isSidebarOpen} trigger={trigger} />
 
             {/* <!-- Content --> */}
-            <div onClick={isSidebarOpen && toggleSidebar}
+            <div onClick={toggleSidebar}
                 ref={chatContainerRef} onScroll={handleScroll} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
                 <div className="sticky left-4 top-4 pl-4 flex items-center gap-x-4">
 
                     {/* toggle sidebar button */}
-                    <svg onClick={toggleSidebar} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
+                    <svg onClick={()=>setIsSidebarOpen(!isSidebarOpen)} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
 
                     {/* new chat button */}
                     <p onClick={handleNavigate} className='text-white'>
