@@ -12,6 +12,7 @@ export const apis = {
   chatAdd: '/chat-history/add',
   chatUpdate: '/chat-history/update/',
   chatGet: '/chat-history/get',
+  chatGetById: '/chat-history/get/',
   chatDelete: '/chat-history/delete/',
 }
 

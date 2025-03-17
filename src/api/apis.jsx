@@ -150,6 +150,11 @@ export const getChatHistory = async () => {
     return response.data;
 };
 
+export const getChatHistoryById = async (historyId) => {
+    const response = await api.get(`${apis.chatGetById}${historyId}`);
+    return response.data;
+};
+
 export const deleteChatHistory = async (historyId) => {
     const response = await api.delete(`${apis.chatDelete}${historyId}`);
     return response.json();

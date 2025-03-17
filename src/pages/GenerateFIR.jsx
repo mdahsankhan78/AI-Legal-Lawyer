@@ -17,7 +17,7 @@ import Loading from '../components/ui/loading';
 import { generateFIR } from '../api/apis';
 
 const GenerateFIR = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [fir, setFIR] = useState()
     const [date, setDate] = useState()
     const [data, setData] = useState({ station: '', section: '', date: date, complainant: '', details: '' });
@@ -47,8 +47,6 @@ const GenerateFIR = () => {
             setLoading(false)
         }
     };
-
-    console.log(fir);
     
     return (
         <div className='flex'>

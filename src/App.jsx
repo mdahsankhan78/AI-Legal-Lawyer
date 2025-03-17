@@ -88,6 +88,7 @@ function App() {
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/chat/:id" element={<Chat />} />
             <Route path="/generate_fir" element={<GenerateFIR />} />
           </Routes>
           {showGoToTop && <GoToTop />}
