@@ -1,17 +1,22 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getChatHistory } from '../../api/apis'
 import Loading from '../ui/loading'
+import { IoLogOutOutline } from "react-icons/io5";
+import useEncryptedLocalStorage from '../../api/EncryptedStorage'
 
-const menu = [
-    { title: 'Case Analysis', path: '/chat' },
-    { title: 'Generate FIR', path: '/generate_fir' },
-]
-
-const Sidebar = ({ isOpen, trigger }) => {
+const Sidebar = ({ isOpen, query }) => {
+    const { getEncryptedItem, removeEncryptedItem } = useEncryptedLocalStorage();
     const [chats, setChats] = useState()
     const location = useLocation()
+    const navigate = useNavigate()
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        const user = getEncryptedItem('user');
+        setUser(user)
+    }, [chats])
 
     const fetchChatHistory = async () => {
         const response = await getChatHistory();
@@ -25,8 +30,14 @@ const Sidebar = ({ isOpen, trigger }) => {
 
     useEffect(() => {
         fetchChatHistory()
-    }, [trigger])
+    }, [query])
 
+    const logout = () => {
+        removeEncryptedItem('user')
+        localStorage.removeItem('token')
+        navigate('/')
+    }
+    
     return (
         <>
             <AnimatePresence>
@@ -87,27 +98,43 @@ const Sidebar = ({ isOpen, trigger }) => {
                                     {/* <!-- List --> */}
                                     <p className='px-7 text-primary modern text-3xl'>Menu</p>
                                     <ul class="space-y-1.5 p-4">
-                                        {menu.map((link, i) => (
-                                            <li key={i} className='relative'>
-                                                <Link to={link.path} class="flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  text-white hover:text-primary" href="#">
-                                                    <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
-                                                        {link.title}
-                                                    </span>
-                                                </Link>
-                                                {location.pathname === link.path && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
-                                            </li>
-                                        ))}
+
+                                        <li className='relative'>
+                                            <Link to={'/chat'} class="flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  text-white hover:text-primary">
+                                                <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                    Case Analysis
+                                                </span>
+                                            </Link>
+                                            {location.pathname === '/chat' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                        </li>
+
+                                        <li className='relative'>
+                                            <Link to={'/generate_fir'} class="flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  text-white hover:text-primary" href="#">
+                                                <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                    Generate FIR
+                                                </span>
+                                            </Link>
+                                            {location.pathname === '/generate_fir' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                        </li>
                                     </ul>
                                     {/* <!-- End List --> */}
                                 </div>
                             </div>
 
                             {/* <!-- Footer --> */}
-                            <div class="mt-auto">
+                            <div class="mt-auto whitespace-nowrap">
                                 <div class="p-4 border-t border-gray-200">
-                                    <a class="flex justify-between items-center gap-x-3 py-2 px-3 text-sm  rounded-lg focus:outline-none  text-white hover:text-primary" href="#">
-                                        Sign in
-                                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" x2="3" y1="12" y2="12" /></svg>
+                                    <a class="flex justify-between items-center gap-x-3 py-2 px-3 text-sm rounded-lg focus:outline-none  text-white hover:text-white" href="#">
+                                        <span class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
+                                            <span class="text-sm font-medium text-white leading-none">
+                                                {user ? user.name.split(' ').slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("") : 'A'}
+                                            </span>
+                                        </span>
+                                        <div className="flex flex-col">
+                                            <p>{user ? user.name : 'Guest'}</p>
+                                            <p className='font-normal'>{user ? user.email : 'guest@gmail.com'}</p>
+                                        </div>
+                                        <IoLogOutOutline onClick={logout} className='font-semibold text-lg hover:text-primary' />
                                     </a>
                                 </div>
                             </div>

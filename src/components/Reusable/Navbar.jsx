@@ -16,8 +16,7 @@ export const navlinks = [
 ]
 
 const Navbar = () => {
-    const { getEncryptedItem } = useEncryptedLocalStorage();
-    const user = getEncryptedItem('user')
+    const token = localStorage.getItem('token')
     const [showAside, setShowAside] = useState(false);
     const [header, setHeader] = useState(false);
 
@@ -45,7 +44,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <CustomButton to={user?'/chat':'/register'} text={'Get Started'} color={'white'} bg={'primary'} px={'px-10'} />
+                        <CustomButton to={token?'/chat':'/register'} text={'Get Started'} color={'white'} bg={'primary'} px={'px-10'} />
                     </div>
 
                     {/* mobile menu icon */}

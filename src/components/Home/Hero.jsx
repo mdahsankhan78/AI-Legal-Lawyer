@@ -6,8 +6,7 @@ import { useSwipeable } from 'react-swipeable'
 import useEncryptedLocalStorage from '../../api/EncryptedStorage'
 
 const Hero = () => {
-    const { getEncryptedItem } = useEncryptedLocalStorage();
-    const user = getEncryptedItem('user')
+    const token = localStorage.getItem('token')
     const [activeIndex, setActiveIndex] = useState(1)
     const [category, setCategory] = useState()
     const [imageLoaded, setImageLoaded] = useState(false)
@@ -68,7 +67,7 @@ const Hero = () => {
                             </p>
 
                             <div className="mt-8">
-                                <CustomButton to={user?'/chat':'/register'} text={'GET CONSULATION'} bg={'primary'} px={'px-10'} />
+                                <CustomButton to={token?'/chat':'/register'} text={'GET CONSULATION'} bg={'primary'} px={'px-10'} />
                             </div>
                         </div>
 

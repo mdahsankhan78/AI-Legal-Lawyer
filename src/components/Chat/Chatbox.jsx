@@ -4,6 +4,7 @@ import useEncryptedLocalStorage from "./../../api/EncryptedStorage";
 import { addChatHistory, analyzeDocument, getChatHistoryById, legalQuery, updateChatHistory } from '../../api/apis';
 import Loading from '../ui/loading';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Chat from '../../pages/Chat';
 
 export const formatResponse = (text) => {
     // Split the text by lines
@@ -43,7 +44,7 @@ export const formatResponse = (text) => {
 
 const Chatbox = () => {
     const { getEncryptedItem } = useEncryptedLocalStorage();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [user, setUser] = useState();
     const [query, setQuery] = useState([])
     const [question, setQuestion] = useState('')
@@ -51,7 +52,6 @@ const Chatbox = () => {
     const [showScrollButton, setShowScrollButton] = useState(false);
     const chatContainerRef = useRef(null);
     const [historyId, setHistoryId] = useState(null);
-    const [trigger, setTrigger] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate()
     const location = useLocation()
@@ -85,7 +85,7 @@ const Chatbox = () => {
     const isLgScreen = () => window.matchMedia('(min-width: 1024px)').matches;
     const toggleSidebar = () => {
         if (!isLgScreen()) {
-            if(isSidebarOpen){
+            if (isSidebarOpen) {
                 setIsSidebarOpen(false);
             }
         }
@@ -115,17 +115,15 @@ const Chatbox = () => {
                 if (id) {
                     await updateChatHistory(id, [...query, updatedQuery]);
                     await fetchChatHistory();
-                    setTrigger(!trigger)
                 } else {
                     const response = await addChatHistory([updatedQuery]);
                     await fetchChatHistory();
-                    setTrigger(!trigger)
                     setHistoryId(response._id);
                     await navigate(`/chat/${response._id}`)
                 }
             }
         } else {
-            const newQuery = { question: '', answer: '', document: document };
+            const newQuery = { question: '', answer: '', document: { filename: document.name, url: URL.createObjectURL(document) } };
             setQuery(prevQuery => [...prevQuery, newQuery]);
             setDocument(null);
 
@@ -138,11 +136,9 @@ const Chatbox = () => {
                 if (id) {
                     await updateChatHistory(id, [...query, updatedQuery]);
                     await fetchChatHistory();
-                    setTrigger(!trigger)
                 } else {
                     const response = await addChatHistory([updatedQuery], document);
                     await fetchChatHistory();
-                    setTrigger(!trigger)
                     setHistoryId(response._id);
                     navigate(`/chat/${response._id}`)
                 }
@@ -179,29 +175,9 @@ const Chatbox = () => {
         }
     };
 
-    const handleNavigate = () => {
-        setQuery([])
-        navigate('/chat')
-    }
-
     return (
-        <div className='flex'>
-            <Sidebar isOpen={isSidebarOpen} trigger={trigger} />
-
-            {/* <!-- Content --> */}
-            <div onClick={toggleSidebar}
-                ref={chatContainerRef} onScroll={handleScroll} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
-                <div className="sticky left-4 top-4 pl-4 flex items-center gap-x-4">
-
-                    {/* toggle sidebar button */}
-                    <svg onClick={()=>setIsSidebarOpen(!isSidebarOpen)} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
-
-                    {/* new chat button */}
-                    <p onClick={handleNavigate} className='text-white'>
-                        <svg class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
-                    </p>
-                </div>
-
+        <>
+            <Chat query={setQuery}>
                 {id && query.length <= 0
                     ?
                     <div className='flex items-center justify-center h-screen'>
@@ -228,8 +204,8 @@ const Chatbox = () => {
                                                             <p>
                                                                 {q.document ? (
                                                                     <span className='flex items-center gap-2'>
-                                                                        {q.document.name}
-                                                                        <a href={URL.createObjectURL(q.document)} download={q.document.name} class="ml-2">
+                                                                        {q.document.filename}
+                                                                        <a href={q.document.url} download={q.document.filename} class="ml-2">
                                                                             <svg class="shrink-0 size-4 text-white hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                                                                 <polyline points="7 10 12 15 17 10" />
@@ -352,16 +328,15 @@ const Chatbox = () => {
                     </>
                 }
                 {/* <!-- End Textarea --> */}
-            </div>
-            <style>
-                {`
+                <style>
+                    {`
                 #file-input {
                 display: none;
                 }
                 `}
-            </style>
-            {/* <!-- End Content --> */}
-        </div>
+                </style>
+            </Chat>
+        </>
     )
 }
 

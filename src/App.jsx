@@ -11,6 +11,7 @@ import GoToTop from "./components/Reusable/GoToTop";
 import { getCurrentUser } from "./api/apis";
 import useEncryptedLocalStorage from "./api/EncryptedStorage";
 import GenerateFIR from "./pages/GenerateFIR";
+import Chatbox from "./components/Chat/Chatbox";
 
 function App() {
   const { setEncryptedItem, getEncryptedItem } = useEncryptedLocalStorage();
@@ -55,12 +56,12 @@ function App() {
         try {
           const currentUser = await getCurrentUser(token);
           if (currentUser === 'User not logged in') {
-            navigate('/');
             setAnimate(false);
+            setEncryptedItem('user', currentUser)
           } else if (currentUser) {
+            setEncryptedItem('user', currentUser)
             setUser(currentUser);
             setAnimate(false)
-            setEncryptedItem('user', currentUser)
           }
         } catch (error) {
           console.error("Error fetching user:", error);
@@ -68,12 +69,11 @@ function App() {
           navigate('/');
         }
       } else {
-        navigate('/');
         setAnimate(false);
       }
     }
     fetchUser()
-  }, []);
+  }, [location]);
 
   return (
     <div className="relative">
@@ -87,8 +87,8 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/chat/:id" element={<Chat />} />
+            <Route path="/chat" element={<Chatbox />} />
+            <Route path="/chat/:id" element={<Chatbox />} />
             <Route path="/generate_fir" element={<GenerateFIR />} />
           </Routes>
           {showGoToTop && <GoToTop />}
