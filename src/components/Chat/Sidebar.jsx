@@ -124,7 +124,7 @@ const Sidebar = ({ isOpen, query }) => {
                             {/* <!-- Footer --> */}
                             <div class="mt-auto whitespace-nowrap">
                                 <div class="p-4 border-t border-gray-200">
-                                    <a class="flex justify-between items-center gap-x-3 py-2 px-3 text-sm rounded-lg focus:outline-none  text-white hover:text-white" href="#">
+                                    <a class="flex justify-between items-center gap-x-3 py-2 text-sm rounded-lg focus:outline-none  text-white hover:text-white" href="#">
                                         <span class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
                                             <span class="text-sm font-medium text-white leading-none">
                                                 {user ? user.name.split(' ').slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("") : 'A'}
