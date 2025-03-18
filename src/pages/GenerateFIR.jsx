@@ -104,6 +104,8 @@ const GenerateFIR = () => {
                     <Textarea name='details' onChange={handleChange} value={data.details} placeholder='Details' required rows='5' className='placeholder:text-gray-500'></Textarea>
                 </div>
                 <Button className='w-40 hover:bg-primary'>{loading ? <Loading /> : 'Generate'}</Button>
+
+                <p>{fir}</p>
             </form>
         </Chat>
     )

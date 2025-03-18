@@ -1,16 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Chatbox from '../components/Chat/Chatbox'
 import Sidebar from '../components/Chat/Sidebar'
 import { useLocation, useNavigate } from 'react-router-dom';
 import useEncryptedLocalStorage from '../api/EncryptedStorage';
 
-const Chat = ({ children, query }) => {
+const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
   const { getEncryptedItem } = useEncryptedLocalStorage();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const user = getEncryptedItem('user')
   const token = localStorage.getItem('token')
   const location = useLocation()
+  const chatContainerRef = useRef(null);
+
+  // Automatically scroll to bottom when new responses are added
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+    scrollToBottom()
+  }, [query2, scroll]);
+
+  // Show/hide the "Go to Bottom" button based on scroll position
+  const handleScroll = () => {
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      const isAtBottom = scrollHeight - (scrollTop + clientHeight) < 50; // 50px threshold
+      setShowScrollButton(!isAtBottom);
+    }
+  };
+
+  // Scroll to bottom when the "Go to Bottom" button is clicked
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -43,7 +74,7 @@ const Chat = ({ children, query }) => {
       <div className='flex'>
         <Sidebar isOpen={isSidebarOpen} />
         {/* <!-- Content --> */}
-        <div onClick={toggleSidebar} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
+        <div onClick={toggleSidebar} onScroll={handleScroll} ref={chatContainerRef} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
 
           <div className="sticky left-4 top-4 pl-4 flex items-center gap-x-4">
 

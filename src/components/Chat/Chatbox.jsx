@@ -45,6 +45,7 @@ export const formatResponse = (text) => {
 const Chatbox = () => {
     const { getEncryptedItem } = useEncryptedLocalStorage();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [scroll, setScroll] = useState(false);
     const [user, setUser] = useState();
     const [query, setQuery] = useState([])
     const [question, setQuestion] = useState('')
@@ -146,38 +147,14 @@ const Chatbox = () => {
         }
     };
 
-    // Automatically scroll to bottom when new responses are added
-    useEffect(() => {
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTo({
-                top: chatContainerRef.current.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-    }, [query]);
-
-    // Show/hide the "Go to Bottom" button based on scroll position
-    const handleScroll = () => {
-        if (chatContainerRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
-            const isAtBottom = scrollHeight - (scrollTop + clientHeight) < 50; // 50px threshold
-            setShowScrollButton(!isAtBottom);
-        }
-    };
-
-    // Scroll to bottom when the "Go to Bottom" button is clicked
+    // // Scroll to bottom when the "Go to Bottom" button is clicked
     const scrollToBottom = () => {
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTo({
-                top: chatContainerRef.current.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
+        setScroll(!scroll)
     };
 
     return (
         <>
-            <Chat query={setQuery}>
+            <Chat query={setQuery} setShowScrollButton={setShowScrollButton} scroll={scroll} query2={query}>
                 {id && query.length <= 0
                     ?
                     <div className='flex items-center justify-center h-screen'>
