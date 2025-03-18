@@ -69,6 +69,19 @@ button:focus-visible {
   box-shadow: white 0px 1px 4px, white 0px 0px 0px 8px;
 }
 
+/* Webkit scrollbar styles */
+::-webkit-scrollbar {
+  width: 2px; /* Equivalent to w-[2px] */
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px; /* Equivalent to rounded-full */
+  background-color: hsl(var(--primary)); /* Equivalent to bg-primary (replace with actual primary color) */
+}
+
+::-webkit-scrollbar-track {
+  background-color: hsl(var(--destructive)); /* Equivalent to bg-destructive (replace with actual destructive color) */
+}
 
 
 @media (min-width: 768px) {
