@@ -108,10 +108,10 @@ button:focus-visible {
 
 @media (min-width: 1536px) {
   .paddingx {
-    padding-left: 10rem
+    padding-left: 5rem
       /* 160px */
     ;
-    padding-right: 10rem
+    padding-right: 5rem
       /* 160px */
     ;
   }

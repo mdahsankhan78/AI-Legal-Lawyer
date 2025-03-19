@@ -3,6 +3,7 @@ import Chatbox from '../components/Chat/Chatbox'
 import Sidebar from '../components/Chat/Sidebar'
 import { useLocation, useNavigate } from 'react-router-dom';
 import useEncryptedLocalStorage from '../api/EncryptedStorage';
+import { isUserLoggedIn } from '../api/apis';
 
 const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
   const { getEncryptedItem } = useEncryptedLocalStorage();
@@ -44,7 +45,7 @@ const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (isUserLoggedIn()) {
       if (user === 'User not logged in') {
         navigate('/login')
       }

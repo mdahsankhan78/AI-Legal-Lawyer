@@ -4,9 +4,9 @@ import CustomButton from './../Reusable/CustomButton'
 import CategorySwiper, { categories } from './CategorySwiper'
 import { useSwipeable } from 'react-swipeable'
 import useEncryptedLocalStorage from '../../api/EncryptedStorage'
+import { isUserLoggedIn } from '../../api/apis'
 
 const Hero = () => {
-    const token = localStorage.getItem('token')
     const [activeIndex, setActiveIndex] = useState(1)
     const [category, setCategory] = useState()
     const [imageLoaded, setImageLoaded] = useState(false)
@@ -67,7 +67,7 @@ const Hero = () => {
                             </p>
 
                             <div className="mt-8">
-                                <CustomButton to={token?'/chat':'/register'} text={'GET CONSULATION'} bg={'primary'} px={'px-10'} />
+                                <CustomButton to={isUserLoggedIn() ? '/chat' : '/register'} text={'GET CONSULATION'} bg={'primary'} px={'px-10'} />
                             </div>
                         </div>
 
