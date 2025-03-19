@@ -5,6 +5,7 @@ import { addChatHistory, analyzeDocument, getChatHistoryById, legalQuery, update
 import Loading from '../ui/loading';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Chat from '../../pages/Chat';
+import { FaUserTie } from "react-icons/fa";
 
 export const formatResponse = (text) => {
     // Split the text by lines
@@ -82,16 +83,6 @@ const Chatbox = () => {
         setDocument(null);
     };
 
-    // Function to check if the screen size is lg (1024px) or above
-    const isLgScreen = () => window.matchMedia('(min-width: 1024px)').matches;
-    const toggleSidebar = () => {
-        if (!isLgScreen()) {
-            if (isSidebarOpen) {
-                setIsSidebarOpen(false);
-            }
-        }
-    };
-
     useEffect(() => {
         const user = getEncryptedItem('user');
         setUser(user)
@@ -151,6 +142,8 @@ const Chatbox = () => {
     const scrollToBottom = () => {
         setScroll(!scroll)
     };
+    console.log(query);
+    
 
     return (
         <>
@@ -182,7 +175,7 @@ const Chatbox = () => {
                                                                 {q.document ? (
                                                                     <span className='flex items-center gap-2'>
                                                                         {q.document.filename}
-                                                                        <a href={q.document.url} download={q.document.filename} class="ml-2">
+                                                                        <a href={URL.createObjectURL(q.document)} download={q.document.filename} class="ml-2">
                                                                             <svg class="shrink-0 size-4 text-white hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                                                                 <polyline points="7 10 12 15 17 10" />
@@ -202,12 +195,9 @@ const Chatbox = () => {
 
                                             {/* <!-- Chat Bubble --> */}
                                             <li class="max-w-4xl py-2 px-4 sm:px-6 lg:px-8 mx-auto flex gap-x-2 sm:gap-x-5">
-                                                <svg class="shrink-0 size-[38px] rounded-full" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="38" height="38" rx="6" fill="#a69d84" />
-                                                    <path d="M10 28V18.64C10 13.8683 14.0294 10 19 10C23.9706 10 28 13.8683 28 18.64C28 23.4117 23.9706 27.28 19 27.28H18.25" stroke="white" stroke-width="1.5" />
-                                                    <path d="M13 28V18.7552C13 15.5104 15.6863 12.88 19 12.88C22.3137 12.88 25 15.5104 25 18.7552C25 22 22.3137 24.6304 19 24.6304H18.25" stroke="white" stroke-width="1.5" />
-                                                    <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
-                                                </svg>
+                                                <div class="bg-primary shrink-0 size-[38px] flex items-center justify-center rounded-full" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <FaUserTie />
+                                                </div>
 
                                                 <div>
                                                     <h2 >
