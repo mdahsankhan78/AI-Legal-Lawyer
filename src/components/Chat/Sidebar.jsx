@@ -74,24 +74,25 @@ const Sidebar = ({ isOpen, query }) => {
                                 {/* <!-- End Logo --> */}
                             </div>
 
-                            <div className="flex flex-col h-full overflow-y-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-destructive [&::-webkit-scrollbar-thumb]:bg-primary">
-                                <div>
-                                    {chats ?
-                                        chats.length > 0 ?
-                                            <div>
-                                                {/* <!-- List --> */}
-                                                <p className='px-7 pt-8 text-primary modern text-3xl'>History</p>
-                                                <ul class="space-y-1.5 p-4">
-                                                    {chats.map((chat, i) => (
-                                                        <li key={i} className='relative flex items-center justify-between group'>
-                                                            <Link class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  hover:text-primary ${location.pathname === `/chat/${chat._id}` ? 'text-primary' : 'text-white'}`} to={`/chat/${chat._id}`}>
-                                                                <span className="text-ellipsis capitalize overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
-                                                                    {chat.chatName ? chat.chatName : 'New Chat'}
-                                                                </span>
-                                                            </Link>
-                                                            {location.pathname === `/chat/${chat._id}` && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
-                                                            {/* <FaRegTrashAlt className='text-white hidden group-hover:block cursor-pointer' onClick={DeleteChat(chat._id)} /> */}
-                                                            {/* <DropdownMenu>
+                            {user && user.role === 'User' ? (
+                                <div className="flex flex-col h-full overflow-y-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-destructive [&::-webkit-scrollbar-thumb]:bg-primary">
+                                    <div>
+                                        {chats ?
+                                            chats.length > 0 ?
+                                                <div>
+                                                    {/* <!-- List --> */}
+                                                    <p className='px-7 pt-8 text-primary modern text-3xl'>History</p>
+                                                    <ul class="space-y-1.5 p-4">
+                                                        {chats.map((chat, i) => (
+                                                            <li key={i} className='relative flex items-center justify-between group'>
+                                                                <Link class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  hover:text-primary ${location.pathname === `/chat/${chat._id}` ? 'text-primary' : 'text-white'}`} to={`/chat/${chat._id}`}>
+                                                                    <span className="text-ellipsis capitalize overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                                        {chat.chatName ? chat.chatName : 'New Chat'}
+                                                                    </span>
+                                                                </Link>
+                                                                {location.pathname === `/chat/${chat._id}` && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                                {/* <FaRegTrashAlt className='text-white hidden group-hover:block cursor-pointer' onClick={DeleteChat(chat._id)} /> */}
+                                                                {/* <DropdownMenu>
                                                                 <DropdownMenuTrigger>
                                                                     <HiOutlineDotsVertical className='text-white' />
                                                                 </DropdownMenuTrigger>
@@ -103,58 +104,81 @@ const Sidebar = ({ isOpen, query }) => {
                                                                     </DropdownMenuItem>
                                                                 </DropdownMenuContent>
                                                             </DropdownMenu> */}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                    {/* <!-- End List --> */}
+                                                </div>
+                                                :
+                                                <div class="py-4">
+                                                    {/* <!-- List --> */}
+                                                    <ul class="p-4">
+                                                        <li>
+                                                            <p class="flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  text-white hover:text-primary">
+                                                                <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                                    No chat history
+                                                                </span>
+                                                            </p>
                                                         </li>
-                                                    ))}
-                                                </ul>
-                                                {/* <!-- End List --> */}
-                                            </div>
+                                                    </ul>
+                                                    {/* <!-- End List --> */}
+                                                </div>
                                             :
-                                            <div class="py-4">
-                                                {/* <!-- List --> */}
-                                                <ul class="p-4">
-                                                    <li>
-                                                        <p class="flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  text-white hover:text-primary">
-                                                            <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
-                                                                No chat history
-                                                            </span>
-                                                        </p>
-                                                    </li>
-                                                </ul>
-                                                {/* <!-- End List --> */}
+                                            <div className="h-60 flex items-center justify-center">
+                                                <Loading />
                                             </div>
-                                        :
-                                        <div className="h-60 flex items-center justify-center">
-                                            <Loading />
+                                        }
+
+                                        <div>
+                                            {/* <!-- List --> */}
+                                            <p className='px-7 text-primary modern text-3xl'>Menu</p>
+                                            <ul class="space-y-1.5 p-4">
+
+                                                <li className='relative'>
+                                                    <Link to={'/chat'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/chat` ? 'text-primary' : 'text-white'}`}>
+                                                        <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                            Case Analysis
+                                                        </span>
+                                                    </Link>
+                                                    {location.pathname === '/chat' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                </li>
+
+                                                <li className='relative'>
+                                                    <Link to={'/generate_fir'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/generate_fir` ? 'text-primary' : 'text-white'}`}>
+                                                        <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                            Generate FIR
+                                                        </span>
+                                                    </Link>
+                                                    {location.pathname === '/generate_fir' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                </li>
+                                            </ul>
+                                            {/* <!-- End List --> */}
                                         </div>
-                                    }
-
-                                    <div>
-                                        {/* <!-- List --> */}
-                                        <p className='px-7 text-primary modern text-3xl'>Menu</p>
-                                        <ul class="space-y-1.5 p-4">
-
-                                            <li className='relative'>
-                                                <Link to={'/chat'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/chat` ? 'text-primary' : 'text-white'}`}>
-                                                    <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
-                                                        Case Analysis
-                                                    </span>
-                                                </Link>
-                                                {location.pathname === '/chat' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
-                                            </li>
-
-                                            <li className='relative'>
-                                                <Link to={'/generate_fir'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/generate_fir` ? 'text-primary' : 'text-white'}`}>
-                                                    <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
-                                                        Generate FIR
-                                                    </span>
-                                                </Link>
-                                                {location.pathname === '/generate_fir' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
-                                            </li>
-                                        </ul>
-                                        {/* <!-- End List --> */}
                                     </div>
                                 </div>
-                            </div>
+                            )
+                                : user && user.role === 'Lawyer' ? (
+                                    <div className="flex flex-col h-full overflow-y-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-destructive [&::-webkit-scrollbar-thumb]:bg-primary">
+                                        <div>
+                                            {/* <!-- List --> */}
+                                            <p className='px-7 text-primary modern text-3xl mt-8'>Menu</p>
+                                            <ul class="space-y-1.5 p-4">
+                                                <li className='relative'>
+                                                    <Link to={'/upload_laws'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/upload_laws` ? 'text-primary' : 'text-white'}`}>
+                                                        <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                            Upload Laws
+                                                        </span>
+                                                    </Link>
+                                                    {location.pathname === '/upload_laws' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                </li>
+                                            </ul>
+                                            {/* <!-- End List --> */}
+                                        </div>
+                                    </div>
+                                )
+                                    :
+                                    ''
+                            }
 
                             {/* <!-- Footer --> */}
                             <div class="mt-auto whitespace-nowrap">

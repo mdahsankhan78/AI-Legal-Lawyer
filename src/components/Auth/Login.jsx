@@ -4,8 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import CustomButton from './../Reusable/CustomButton'
 import { Separator } from '../ui/separator'
 import { loginUser } from './../../api/apis'
+import useEncryptedLocalStorage from '../../api/EncryptedStorage'
 
 const Login = () => {
+    const { setEncryptedItem } = useEncryptedLocalStorage()
     const [data, setData] = useState({ email: '', password: '' });
     const [msg, setMsg] = useState('');
     const [loading, setLoading] = useState(false);
@@ -19,16 +21,26 @@ const Login = () => {
         e.preventDefault();
         setLoading(true)
         const res = await loginUser(data.email, data.password);
-        if (res === 'Logged in successfully') {
+        if (res.message === 'Logged in successfully') {
             setMsg(res)
             setLoading(false)
-            navigate('/chat')
+            await setEncryptedItem('user', res.user)
+            if (res.user.role === 'Admin') {
+                navigate('/users')
+            }
+            else if (res.user.role === 'Lawyer') {
+                navigate('/upload_laws')
+            }
+            else {
+                navigate('/chat')
+            }
         }
         else {
             setMsg(res)
             setLoading(false)
         }
     };
+
     return (
         <form onSubmit={handleLogin} className='flex flex-col gap-y-4 justify-center h-full md:px-8 p-10'>
             <div className="text-primary font-semibold text-lg flex gap-x-2 items-center justify-center whitespace-nowrap">

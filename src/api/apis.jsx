@@ -50,7 +50,7 @@ export const loginUser = async (email, password) => {
         });
 
         localStorage.setItem("token", response.data.access_token);
-        return ('Logged in successfully')
+        return ({ message: 'Logged in successfully', user: response.data.user })
 
     } catch (error) {
         console.error("Login error:", error.response.data);
@@ -78,6 +78,35 @@ export const getCurrentUser = async (token) => {
         else {
             return ('User not logged in')
         }
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
+export const getUserById = async (id) => {
+    try {
+        const response = await api.get(`${apis.currentUser}${id}`, {
+            headers: { "Content-Type": "application/json" },
+        });
+        return (response.data)
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
+export const getUsers = async () => {
+    try {
+        const response = await api.get(apis.users);
+        return (response.data)
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
+export const updateUser = async (id, role) => {
+    try {
+        const response = await api.put(`${apis.updateUser}${id}`, { role });
+        return (response.data)
     } catch (error) {
         return (error.response.message);
     }
@@ -136,12 +165,12 @@ export const generateFIR = async (data) => {
 
 // api/apis.js
 export const addChatHistory = async (query) => {
-    const response = await api.post(apis.chatAdd, {query});
+    const response = await api.post(apis.chatAdd, { query });
     return response.data
 };
 
 export const updateChatHistory = async (historyId, query) => {
-    const response = await api.put(`${apis.chatUpdate}${historyId}`,{query});
+    const response = await api.put(`${apis.chatUpdate}${historyId}`, { query });
     return response.json();
 };
 
@@ -160,4 +189,63 @@ export const deleteChatHistory = async (historyId) => {
     return response.data.json();
 };
 
+//laws
+export const uploadLaw = async (file) => {
+    // debugger
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const response = await api.post(apis.uploadLaw, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+        console.log("Analysis Result:", response.data);
+        return (response.data.response)
+    } catch (error) {
+        return (error.response.data.detail);
+    }
+};
+
+export const getLawById = async (id) => {
+    try {
+        const response = await api.get(`${apis.getLawById}${id}`, {
+            headers: { "Content-Type": "application/json" },
+        });
+        return (response.data)
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
+export const getLaws = async () => {
+    try {
+        const response = await api.get(apis.laws);
+        return (response.data)
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
+export const updateLaw = async (id, law) => {
+    const formData = new FormData();
+    formData.append("file", law);
+
+    try {
+        const response = await api.put(`${apis.updateLaw}${id}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+        return (response.data)
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
+export const deleteLaw = async (id) => {
+    const response = await api.delete(`${apis.deleteLaw}${id}`);
+    return response.data.json();
+};
 
