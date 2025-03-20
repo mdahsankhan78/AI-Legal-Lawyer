@@ -1,10 +1,20 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { getChatHistory } from '../../api/apis'
+import { deleteChatHistory, getChatHistory } from '../../api/apis'
 import Loading from '../ui/loading'
 import { IoLogOutOutline } from "react-icons/io5";
 import useEncryptedLocalStorage from '../../api/EncryptedStorage'
+import {
+    DropdownMenu,
+    DropdownMenuItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Sidebar = ({ isOpen, query }) => {
     const { getEncryptedItem, removeEncryptedItem } = useEncryptedLocalStorage();
@@ -38,6 +48,16 @@ const Sidebar = ({ isOpen, query }) => {
         navigate('/')
     }
 
+    const DeleteChat = async (id) => {
+        const res = await deleteChatHistory(id)
+        if (res) {
+            if (location.pathname === `/chat/${id}`) {
+                navigate('/chat')
+            }
+            fetchChatHistory()
+        }
+    }
+
     return (
         <>
             <AnimatePresence>
@@ -58,18 +78,31 @@ const Sidebar = ({ isOpen, query }) => {
                                 <div>
                                     {chats ?
                                         chats.length > 0 ?
-                                            <div class="">
+                                            <div>
                                                 {/* <!-- List --> */}
                                                 <p className='px-7 pt-8 text-primary modern text-3xl'>History</p>
                                                 <ul class="space-y-1.5 p-4">
                                                     {chats.map((chat, i) => (
-                                                        <li key={i} className='relative'>
+                                                        <li key={i} className='relative flex items-center justify-between group'>
                                                             <Link class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  hover:text-primary ${location.pathname === `/chat/${chat._id}` ? 'text-primary' : 'text-white'}`} to={`/chat/${chat._id}`}>
                                                                 <span className="text-ellipsis capitalize overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
                                                                     {chat.chatName ? chat.chatName : 'New Chat'}
                                                                 </span>
                                                             </Link>
                                                             {location.pathname === `/chat/${chat._id}` && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                            {/* <FaRegTrashAlt className='text-white hidden group-hover:block cursor-pointer' onClick={DeleteChat(chat._id)} /> */}
+                                                            {/* <DropdownMenu>
+                                                                <DropdownMenuTrigger>
+                                                                    <HiOutlineDotsVertical className='text-white' />
+                                                                </DropdownMenuTrigger>
+                                                                <DropdownMenuContent className="text-white">
+                                                                    <DropdownMenuLabel>Action</DropdownMenuLabel>
+                                                                    <DropdownMenuSeparator />
+                                                                    <DropdownMenuItem>
+                                                                        Delete Chat
+                                                                    </DropdownMenuItem>
+                                                                </DropdownMenuContent>
+                                                            </DropdownMenu> */}
                                                         </li>
                                                     ))}
                                                 </ul>

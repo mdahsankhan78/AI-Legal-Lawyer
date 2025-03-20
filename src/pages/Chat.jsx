@@ -66,14 +66,16 @@ const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
   };
 
   const handleNavigate = () => {
-    query([])
+    if(query){
+      query([])
+    }
     navigate('/chat')
   }
 
   return (
     <div className='bg-destructive-foreground'>
       <div className='flex'>
-        <Sidebar isOpen={isSidebarOpen} />
+        <Sidebar isOpen={isSidebarOpen} query={query2}/>
         {/* <!-- Content --> */}
         <div onClick={toggleSidebar} onScroll={handleScroll} ref={chatContainerRef} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
 

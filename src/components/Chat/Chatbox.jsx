@@ -45,14 +45,12 @@ export const formatResponse = (text) => {
 
 const Chatbox = () => {
     const { getEncryptedItem } = useEncryptedLocalStorage();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [scroll, setScroll] = useState(false);
     const [user, setUser] = useState();
     const [query, setQuery] = useState([])
     const [question, setQuestion] = useState('')
     const [document, setDocument] = useState(null)
     const [showScrollButton, setShowScrollButton] = useState(false);
-    const chatContainerRef = useRef(null);
     const [historyId, setHistoryId] = useState(null);
     const { id } = useParams();
     const navigate = useNavigate()
@@ -62,12 +60,22 @@ const Chatbox = () => {
         setQuestion(e.target.value);
     };
 
-    const fetchChatHistory = async () => {
-        const response = await getChatHistoryById(id);
-        if (response.query) {
-            setQuery(response.query);
-            setHistoryId(response._id);
-            return response._id
+    const fetchChatHistory = async (h_id) => {
+        if (h_id) {
+            const response = await getChatHistoryById(h_id);
+            if (response.query) {
+                setQuery(response.query);
+                setHistoryId(response._id);
+                return response._id
+            }
+        }
+        else {
+            const response = await getChatHistoryById(id);
+            if (response.query) {
+                setQuery(response.query);
+                setHistoryId(response._id);
+                return response._id
+            }
         }
     };
 
@@ -109,9 +117,9 @@ const Chatbox = () => {
                     await fetchChatHistory();
                 } else {
                     const response = await addChatHistory([updatedQuery]);
-                    await fetchChatHistory();
-                    setHistoryId(response._id);
-                    await navigate(`/chat/${response._id}`)
+                    await navigate(`/chat/${response.chat_history._id}`)
+                    await fetchChatHistory(response.chat_history._id);
+                    setHistoryId(response.chat_history._id);
                 }
             }
         } else {
@@ -130,9 +138,9 @@ const Chatbox = () => {
                     await fetchChatHistory();
                 } else {
                     const response = await addChatHistory([updatedQuery], document);
-                    await fetchChatHistory();
-                    setHistoryId(response._id);
-                    navigate(`/chat/${response._id}`)
+                    await navigate(`/chat/${response.chat_history._id}`)
+                    await fetchChatHistory(response.chat_history._id);
+                    setHistoryId(response.chat_history._id);
                 }
             }
         }
@@ -142,8 +150,6 @@ const Chatbox = () => {
     const scrollToBottom = () => {
         setScroll(!scroll)
     };
-    console.log(query);
-    
 
     return (
         <>
@@ -175,7 +181,7 @@ const Chatbox = () => {
                                                                 {q.document ? (
                                                                     <span className='flex items-center gap-2'>
                                                                         {q.document.filename}
-                                                                        <a href={URL.createObjectURL(q.document)} download={q.document.filename} class="ml-2">
+                                                                        <a href={q.document.url} download={q.document.filename} class="ml-2">
                                                                             <svg class="shrink-0 size-4 text-white hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                                                                 <polyline points="7 10 12 15 17 10" />

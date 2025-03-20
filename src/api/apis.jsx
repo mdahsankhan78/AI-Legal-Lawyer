@@ -137,7 +137,7 @@ export const generateFIR = async (data) => {
 // api/apis.js
 export const addChatHistory = async (query) => {
     const response = await api.post(apis.chatAdd, {query});
-    return response.json();
+    return response.data
 };
 
 export const updateChatHistory = async (historyId, query) => {
@@ -157,7 +157,7 @@ export const getChatHistoryById = async (historyId) => {
 
 export const deleteChatHistory = async (historyId) => {
     const response = await api.delete(`${apis.chatDelete}${historyId}`);
-    return response.json();
+    return response.data.json();
 };
 
 
