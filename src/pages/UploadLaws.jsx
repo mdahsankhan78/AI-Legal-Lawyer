@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Chat from './Chat'
 import Loading from '../components/ui/loading';
-import { getLaws, uploadLaw } from '../api/apis';
+import { uploadLaw } from '../api/apis';
 import LawsTable from '../components/Laws/Table';
 
 const UploadLaws = () => {
     const [law, setLaw] = useState();
-    const [laws, setLaws] = useState();
     const [loading, setLoading] = useState();
     const [trigger, setTrigger] = useState(false);
 
@@ -56,7 +55,7 @@ const UploadLaws = () => {
                         </label>
                     </div>
                 </div>
-                <LawsTable trigger={trigger} />
+                <LawsTable trigger={loading} />
             </div>
             <style>
                 {`

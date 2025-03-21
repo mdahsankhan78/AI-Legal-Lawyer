@@ -16,7 +16,7 @@ import {
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-const Sidebar = ({ isOpen, query }) => {
+const Sidebar = ({ isOpen, query, onDelete }) => {
     const { getEncryptedItem, removeEncryptedItem } = useEncryptedLocalStorage();
     const [chats, setChats] = useState()
     const location = useLocation()
@@ -51,9 +51,7 @@ const Sidebar = ({ isOpen, query }) => {
     const DeleteChat = async (id) => {
         const res = await deleteChatHistory(id)
         if (res) {
-            if (location.pathname === `/chat/${id}`) {
-                navigate('/chat')
-            }
+            onDelete()
             fetchChatHistory()
         }
     }
@@ -84,26 +82,14 @@ const Sidebar = ({ isOpen, query }) => {
                                                     <p className='px-7 pt-8 text-primary modern text-3xl'>History</p>
                                                     <ul class="space-y-1.5 p-4">
                                                         {chats.map((chat, i) => (
-                                                            <li key={i} className='relative flex items-center justify-between group'>
+                                                            <li key={i} className='relative group'>
                                                                 <Link class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none  hover:text-primary ${location.pathname === `/chat/${chat._id}` ? 'text-primary' : 'text-white'}`} to={`/chat/${chat._id}`}>
                                                                     <span className="text-ellipsis capitalize overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
                                                                         {chat.chatName ? chat.chatName : 'New Chat'}
                                                                     </span>
                                                                 </Link>
                                                                 {location.pathname === `/chat/${chat._id}` && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
-                                                                {/* <FaRegTrashAlt className='text-white hidden group-hover:block cursor-pointer' onClick={DeleteChat(chat._id)} /> */}
-                                                                {/* <DropdownMenu>
-                                                                <DropdownMenuTrigger>
-                                                                    <HiOutlineDotsVertical className='text-white' />
-                                                                </DropdownMenuTrigger>
-                                                                <DropdownMenuContent className="text-white">
-                                                                    <DropdownMenuLabel>Action</DropdownMenuLabel>
-                                                                    <DropdownMenuSeparator />
-                                                                    <DropdownMenuItem>
-                                                                        Delete Chat
-                                                                    </DropdownMenuItem>
-                                                                </DropdownMenuContent>
-                                                            </DropdownMenu> */}
+                                                                <FaRegTrashAlt className='text-white hidden group-hover:block cursor-pointer absolute right-0 top-2 hover:text-primary' onClick={() => DeleteChat(chat._id)} />
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -177,7 +163,25 @@ const Sidebar = ({ isOpen, query }) => {
                                     </div>
                                 )
                                     :
-                                    ''
+                                    (
+                                        <div className="flex flex-col h-full overflow-y-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-destructive [&::-webkit-scrollbar-thumb]:bg-primary">
+                                            <div>
+                                                {/* <!-- List --> */}
+                                                <p className='px-7 text-primary modern text-3xl mt-8'>Menu</p>
+                                                <ul class="space-y-1.5 p-4">
+                                                    <li className='relative'>
+                                                        <Link to={'/users'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/users` ? 'text-primary' : 'text-white'}`}>
+                                                            <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                                Manage Users
+                                                            </span>
+                                                        </Link>
+                                                        {location.pathname === '/users' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                    </li>
+                                                </ul>
+                                                {/* <!-- End List --> */}
+                                            </div>
+                                        </div>
+                                    )
                             }
 
                             {/* <!-- Footer --> */}

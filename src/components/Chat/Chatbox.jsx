@@ -151,9 +151,16 @@ const Chatbox = () => {
         setScroll(!scroll)
     };
 
+    const onDelete = () => {
+        if (query) {
+            setQuery([])
+        }
+        navigate('/chat')
+    }
+
     return (
         <>
-            <Chat query={setQuery} setShowScrollButton={setShowScrollButton} scroll={scroll} query2={query}>
+            <Chat query={setQuery} setShowScrollButton={setShowScrollButton} scroll={scroll} query2={query} onDelete={onDelete}>
                 {id && query.length <= 0
                     ?
                     <div className='flex items-center justify-center h-screen'>

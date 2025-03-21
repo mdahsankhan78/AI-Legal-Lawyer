@@ -5,12 +5,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useEncryptedLocalStorage from '../api/EncryptedStorage';
 import { isUserLoggedIn } from '../api/apis';
 
-const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
+const Chat = ({ children, query, setShowScrollButton, scroll, query2, onDelete }) => {
   const { getEncryptedItem } = useEncryptedLocalStorage();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const user = getEncryptedItem('user')
-  const token = localStorage.getItem('token')
   const location = useLocation()
   const chatContainerRef = useRef(null);
 
@@ -66,7 +65,7 @@ const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
   };
 
   const handleNavigate = () => {
-    if(query){
+    if (query) {
       query([])
     }
     navigate('/chat')
@@ -75,7 +74,7 @@ const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
   return (
     <div className='bg-destructive-foreground'>
       <div className='flex'>
-        <Sidebar isOpen={isSidebarOpen} query={query2}/>
+        <Sidebar isOpen={isSidebarOpen} query={query2} onDelete={onDelete}/>
         {/* <!-- Content --> */}
         <div onClick={toggleSidebar} onScroll={handleScroll} ref={chatContainerRef} class={`relative h-screen w-full overflow-y-auto bg-destructive-foreground text-white flex flex-col`}>
 
@@ -84,10 +83,13 @@ const Chat = ({ children, query, setShowScrollButton, scroll, query2 }) => {
             {/* toggle sidebar button */}
             <svg onClick={() => setIsSidebarOpen(!isSidebarOpen)} class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
 
-            {/* new chat button */}
-            <p onClick={handleNavigate} className='text-white'>
-              <svg class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
-            </p>
+            {user && user.role === 'User' &&
+              (
+                < p onClick={handleNavigate} className='text-white'>
+                  <svg class="shrink-0 size-5 hover:text-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+                </p>
+              )}
+
           </div>
 
           {children}

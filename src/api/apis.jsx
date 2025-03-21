@@ -186,7 +186,7 @@ export const getChatHistoryById = async (historyId) => {
 
 export const deleteChatHistory = async (historyId) => {
     const response = await api.delete(`${apis.chatDelete}${historyId}`);
-    return response.data.json();
+    return response.data;
 };
 
 //laws
@@ -245,7 +245,7 @@ export const updateLaw = async (id, law) => {
 };
 
 export const deleteLaw = async (id) => {
-    const response = await api.delete(`${apis.deleteLaw}${id}`);
+    const response = await api.delete(`${apis.DeleteLaw}${id}`);
     return response.data.json();
 };
 

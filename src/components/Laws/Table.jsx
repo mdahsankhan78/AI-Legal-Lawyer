@@ -12,7 +12,7 @@ import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
 
 const LawsTable = ({ trigger }) => {
     const [laws, setLaws] = useState()
-    const [trigger2, setTrigger] = useState(false);
+    const [trigger2, setTrigger2] = useState(false);
 
     const handleFetch = async () => {
         const res = await getLaws();
@@ -24,7 +24,7 @@ const LawsTable = ({ trigger }) => {
     const handleDelete = (id) => {
         const res = deleteLaw(id)
         if (res) {
-            setTrigger(!trigger2)
+            setTrigger2(!trigger2)
         }
     }
 
@@ -35,29 +35,37 @@ const LawsTable = ({ trigger }) => {
     return (
         <>
             {laws ?
-                <Table className='my-4'>
-                    <TableHeader>
-                        <TableCell>Text</TableCell>
-                        <TableCell>Source</TableCell>
-                        <TableCell>Action</TableCell>
-                    </TableHeader>
-                    <TableBody>
-                        {laws.map((law, i) => (
-                            <TableRow key={law.id}>
-                                <TableCell>{law.text}</TableCell>
-                                <TableCell>{law.source}</TableCell>
-                                <TableCell>
-                                    {/* <FaRegTrashAlt onClick={handleDelete(law.id)} className='cursor-pointer hover:text-primary' /> */}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                laws.length > 0 ? (
+                    <Table className='my-4 table'>
+                        <TableHeader>
+                            <TableCell>Text</TableCell>
+                            <TableCell>Source</TableCell>
+                            <TableCell>Action</TableCell>
+                        </TableHeader>
+                        <TableBody>
+                            {laws.map((law, i) => (
+                                <TableRow key={i}>
+                                    <TableCell>{law.text}</TableCell>
+                                    <TableCell>{law.source}</TableCell>
+                                    <TableCell>
+                                        <FaRegTrashAlt onClick={() => handleDelete(law._id)} className='cursor-pointer hover:text-primary' />
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )
+                    :
+                    <div className='flex items-center justify-center h-80'>
+                        <p>No laws found</p>
+                    </div>
+
                 :
                 <div className='flex items-center justify-center h-screen'>
                     <Loading />
                 </div>
             }
+
         </>
     )
 }
