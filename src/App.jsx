@@ -14,6 +14,7 @@ import GenerateFIR from "./pages/GenerateFIR";
 import Chatbox from "./components/Chat/Chatbox";
 import Users from "./pages/Users";
 import UploadLaws from "./pages/UploadLaws";
+import Laws from "./pages/Laws";
 
 function App() {
   const { setEncryptedItem } = useEncryptedLocalStorage();
@@ -92,6 +93,7 @@ function App() {
             <Route path="/chat" element={<Chatbox />} />
             <Route path="/chat/:id" element={<Chatbox />} />
             <Route path="/generate_fir" element={<GenerateFIR />} />
+            <Route path="/laws" element={<Laws />} />
 
             {/* Admin routes */}
             <Route path="/users" element={<Users />} />

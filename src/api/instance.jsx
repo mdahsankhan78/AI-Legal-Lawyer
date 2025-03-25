@@ -14,6 +14,7 @@ export const apis = {
   getLawById: '/laws/',
   updateLaw: '/laws/update/',
   DeleteLaw: '/laws/delete/',
+  SearchLaw: '/laws/search/',
   chatAdd: '/chat-history/add',
   chatUpdate: '/chat-history/update/',
   chatGet: '/chat-history/get',

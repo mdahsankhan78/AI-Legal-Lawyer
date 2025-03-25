@@ -6,18 +6,28 @@ import {
     TableHeader,
     TableRow,
 } from "./../ui/table"
-import { deleteLaw, getLaws } from '../../api/apis'
+import { deleteLaw, getLaws, searchLaws } from '../../api/apis'
 import Loading from '../ui/loading'
 import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
 
-const LawsTable = ({ trigger }) => {
+const LawsTable = ({ trigger, query }) => {
     const [laws, setLaws] = useState()
     const [trigger2, setTrigger2] = useState(false);
+    const location = useLocation()
 
     const handleFetch = async () => {
-        const res = await getLaws();
-        if (res) {
-            setLaws(res);
+        if (!query && location.pathname !== '/laws') {
+            const res = await getLaws();
+            if (res) {
+                setLaws(res);
+            }
+        }
+        else {
+            const res = await searchLaws(query);
+            if (res) {
+                setLaws(res);
+            }
         }
     }
 
@@ -30,7 +40,8 @@ const LawsTable = ({ trigger }) => {
 
     useEffect(() => {
         handleFetch()
-    }, [trigger, trigger2])
+    }, [trigger, trigger2, query])
+
 
     return (
         <>
@@ -40,16 +51,16 @@ const LawsTable = ({ trigger }) => {
                         <TableHeader>
                             <TableCell>Text</TableCell>
                             <TableCell>Source</TableCell>
-                            <TableCell>Action</TableCell>
+                            {location.pathname !== '/laws' && <TableCell>Action</TableCell>}
                         </TableHeader>
                         <TableBody>
                             {laws.map((law, i) => (
                                 <TableRow key={i}>
                                     <TableCell>{law.text}</TableCell>
                                     <TableCell>{law.source}</TableCell>
-                                    <TableCell>
+                                    {location.pathname !== '/laws' && <TableCell>
                                         <FaRegTrashAlt onClick={() => handleDelete(law._id)} className='cursor-pointer hover:text-primary' />
-                                    </TableCell>
+                                    </TableCell>}
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -61,7 +72,7 @@ const LawsTable = ({ trigger }) => {
                     </div>
 
                 :
-                <div className='flex items-center justify-center h-screen'>
+                <div className={`${location.pathname === '/laws' ? 'hidden' : 'flex'} items-center justify-center h-screen `}>
                     <Loading />
                 </div>
             }

@@ -130,6 +130,15 @@ const Sidebar = ({ isOpen, query, onDelete }) => {
                                                 </li>
 
                                                 <li className='relative'>
+                                                    <Link to={'/laws'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/laws` ? 'text-primary' : 'text-white'}`}>
+                                                        <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
+                                                            Search Laws
+                                                        </span>
+                                                    </Link>
+                                                    {location.pathname === '/laws' && <motion.div layoutId='menu' className="absolute w-[2px] h-6 bg-primary top-1.5 "></motion.div>}
+                                                </li>
+
+                                                <li className='relative'>
                                                     <Link to={'/generate_fir'} class={`flex items-center gap-x-3 py-2 px-3 text-sm focus:outline-none hover:text-primary ${location.pathname === `/generate_fir` ? 'text-primary' : 'text-white'}`}>
                                                         <span className="text-ellipsis overflow-hidden whitespace-nowrap" style={{ maxWidth: '200px' }}>
                                                             Generate FIR

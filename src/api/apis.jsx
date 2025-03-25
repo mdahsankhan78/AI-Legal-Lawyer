@@ -228,6 +228,15 @@ export const getLaws = async () => {
     }
 };
 
+export const searchLaws = async (query) => {
+    try {
+        const response = await api.post(apis.SearchLaw, {query, limit:5});
+        return (response.data)
+    } catch (error) {
+        return (error.response.message);
+    }
+};
+
 export const updateLaw = async (id, law) => {
     const formData = new FormData();
     formData.append("file", law);
@@ -246,6 +255,6 @@ export const updateLaw = async (id, law) => {
 
 export const deleteLaw = async (id) => {
     const response = await api.delete(`${apis.DeleteLaw}${id}`);
-    return response.data.json();
+    return response.data
 };
 
