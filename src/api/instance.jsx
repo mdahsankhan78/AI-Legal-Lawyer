@@ -13,6 +13,7 @@ export const apis = {
   laws: '/laws',
   getLawById: '/laws/',
   updateLaw: '/laws/update/',
+  downloadLaw: '/laws/download/',
   DeleteLaw: '/laws/delete/',
   SearchLaw: '/laws/search/',
   chatAdd: '/chat-history/add',
