@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Chat from './Chat'
-import Loading from '../components/ui/loading';
+import Loading from './../components/ui/loading';
 import { uploadLaw } from '../api/apis';
 import LawsTable from '../components/Laws/Table';
 import { Input } from './../components/ui/input'
