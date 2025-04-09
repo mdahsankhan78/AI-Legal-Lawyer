@@ -11,8 +11,7 @@ import {
 } from "../components/ui/popover"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
-import CustomButton from '../components/Reusable/CustomButton';
-import { Button } from '../components/ui/button';
+import { Button } from './../components/ui/button';
 import Loading from '../components/ui/loading';
 import { generateFIR } from '../api/apis';
 import Chat from './Chat';
