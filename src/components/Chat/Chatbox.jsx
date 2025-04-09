@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from './Sidebar'
 import useEncryptedLocalStorage from "./../../api/EncryptedStorage";
 import { addChatHistory, analyzeDocument, getChatHistoryById, legalQuery, updateChatHistory } from '../../api/apis';
-import Loading from '../ui/loading';
+import Loading from './../ui/Loading';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Chat from '../../pages/Chat';
 import { FaUserTie } from "react-icons/fa";

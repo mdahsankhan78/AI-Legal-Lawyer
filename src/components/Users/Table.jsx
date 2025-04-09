@@ -13,7 +13,7 @@ import {
     DialogContent,
 } from "./../ui/dialog"
 import { getUsers } from '../../api/apis'
-import Loading from '../ui/loading'
+import Loading from './../ui/Loading'
 import { FaEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Edit from './Edit'

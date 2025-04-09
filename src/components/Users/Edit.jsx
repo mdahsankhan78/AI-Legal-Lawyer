@@ -10,7 +10,7 @@ import {
 } from "./../ui/select"
 import { Input } from "./../ui/input"
 import CustomButton from "./../reusable/CustomButton"
-import Loading from '../ui/loading'
+import Loading from './../ui/Loading'
 import { getUserById, updateUser } from '../../api/apis'
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 

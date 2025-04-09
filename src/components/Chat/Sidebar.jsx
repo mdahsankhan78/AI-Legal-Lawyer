@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { deleteChatHistory, getChatHistory } from '../../api/apis'
-import Loading from '../ui/loading'
+import Loading from './../ui/Loading'
 import { IoLogOutOutline } from "react-icons/io5";
 import useEncryptedLocalStorage from '../../api/EncryptedStorage'
 import {

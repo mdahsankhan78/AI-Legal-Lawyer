@@ -7,7 +7,7 @@ import {
     TableRow,
 } from "./../ui/table"
 import { deleteLaw, downloadLaw, getLaws, searchLaws } from '../../api/apis'
-import Loading from '../ui/loading'
+import Loading from './../ui/Loading'
 import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
 import { useLocation } from 'react-router-dom';
 

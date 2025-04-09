@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from './../ui/button'
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import Loading from '../ui/loading';
+import Loading from './../ui/Loading';
 
 const CustomButton = ({ bg, loading, text, color, border, px, to, ...props }) => {
     const navigate = useNavigate()
