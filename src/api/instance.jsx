@@ -24,7 +24,7 @@ export const apis = {
 }
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000", // Your FastAPI server URL
+  baseURL: "http://127.0.0.1:8000",
   headers: { "Content-Type": "application/json" },
 });
 
