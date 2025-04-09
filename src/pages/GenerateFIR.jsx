@@ -12,7 +12,7 @@ import {
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { Button } from './../components/ui/button';
-import Loading from './../components/ui/loading';
+import Loading from './../components/ui/Loading';
 import { generateFIR } from '../api/apis';
 import Chat from './Chat';
 
